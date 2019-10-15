@@ -1,0 +1,15 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <AssemblyName>Jopalesha.Common.Infrastructure.Configuration.Xml</AssemblyName>
+    <RootNamespace>Jopalesha.Common.Infrastructure.Configuration.Xml</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Jopalesha.Common.Infrastructure" Version="1.0.8" />
+    <PackageReference Include="SimpleInjector" Version="4.6.0" />
+    <PackageReference Include="System.Configuration.ConfigurationManager" Version="4.5.0" />
+  </ItemGroup>
+
+</Project>

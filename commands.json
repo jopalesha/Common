@@ -1,0 +1,74 @@
+{
+  "commands": {
+    "Common.Domain": {
+      "fileName": "cmd.exe",
+      "workingDirectory": ".",
+      "arguments": "/c Common.Domain\\Common.Domain.bat"
+    },
+    "Common.Data.EntityFramework": {
+      "fileName": "cmd.exe",
+      "workingDirectory": ".",
+      "arguments": "/c Common.Data\\Common.Data.EntityFramework\\Common.Data.EntityFramework.bat"
+    },
+    "Common.Client.Http": {
+      "fileName": "cmd.exe",
+      "workingDirectory": ".",
+      "arguments": "/c Common.Client\\Common.Client.Http\\Common.Client.Http.bat"
+    },
+    "Common.Application": {
+      "fileName": "cmd.exe",
+      "workingDirectory": ".",
+      "arguments": "/c Common.Application\\Common.Application.bat"
+    },
+    "Mapper.AutoMapper": {
+      "fileName": "cmd.exe",
+      "workingDirectory": ".",
+      "arguments": "/c Common.Infrastructure\\Infrastructure.Mapper\\Mapper.Automapper\\Mapper.AutoMapper.bat"
+    },
+    "Logging.NLog": {
+      "fileName": "cmd.exe",
+      "workingDirectory": ".",
+      "arguments": "/c Common.Infrastructure\\Infrastructure.Logging\\Logging.NLog\\Logging.NLog.bat"
+    },
+    "Configuration.Json": {
+      "fileName": "cmd.exe",
+      "workingDirectory": ".",
+      "arguments": "/c Common.Infrastructure\\Infrastructure.Configuration\\Configuration.Json\\Configuration.Json.bat"
+    },
+    "Configuration.Xml": {
+      "fileName": "cmd.exe",
+      "workingDirectory": ".",
+      "arguments": "/c Common.Infrastructure\\Infrastructure.Configuration\\Configuration.Xml\\Configuration.Xml.bat"
+    },
+    "Common.Infrastructure": {
+      "fileName": "cmd.exe",
+      "workingDirectory": ".",
+      "arguments": "/c Common.Infrastructure\\Infrastructure\\Common.Infrastructure.bat"
+    },
+    "Common.Hosting.WindowsService": {
+      "fileName": "cmd.exe",
+      "workingDirectory": ".",
+      "arguments": "/c Common.Hosting\\Common.Hosting.WindowsService\\Common.Hosting.WindowsService.bat"
+    },
+    "Common.Tests": {
+      "fileName": "cmd.exe",
+      "workingDirectory": ".",
+      "arguments": "/c Common.Tests\\src\\Common.Tests.bat"
+    },
+    "Common.Contract": {
+      "fileName": "cmd.exe",
+      "workingDirectory": ".",
+      "arguments": "/c Common.Contract\\src\\Common.Contract.bat"
+    },
+    "Notification.Telegram": {
+      "fileName": "cmd.exe",
+      "workingDirectory": ".",
+      "arguments": "/c Common.Infrastructure\\Infrastructure.Notification\\Notification.Telegram\\Notification.Telegram.bat"
+    },
+    "Cache.Sql": {
+      "fileName": "cmd.exe",
+      "workingDirectory": ".",
+      "arguments": "/c Common.Infrastructure\\Infrastructure.Cache\\Cache.Sql\\Cache.Sql.bat"
+    }
+  }
+}

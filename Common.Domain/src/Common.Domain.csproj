@@ -1,0 +1,14 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <AssemblyName>Jopalesha.Common.Domain</AssemblyName>
+    <RootNamespace>Jopalesha.Common.Domain</RootNamespace>
+    <LangVersion>latest</LangVersion>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Jopalesha.Common.Infrastructure" Version="1.0.8" />
+  </ItemGroup>
+
+</Project>

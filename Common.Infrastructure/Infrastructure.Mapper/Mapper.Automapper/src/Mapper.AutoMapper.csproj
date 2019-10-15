@@ -1,0 +1,16 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <AssemblyName>Jopalesha.Common.Infrastructure.Mapper.AutoMapper</AssemblyName>
+    <RootNamespace>Jopalesha.Common.Infrastructure.Mapper.AutoMapper</RootNamespace>
+    <Version>1.0.1</Version>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="AutoMapper" Version="8.1.1" />
+    <PackageReference Include="Jopalesha.Common.Infrastructure" Version="1.0.8" />
+    <PackageReference Include="SimpleInjector" Version="4.6.0" />
+  </ItemGroup>
+
+</Project>
