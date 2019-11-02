@@ -8,20 +8,35 @@ namespace Jopalesha.Common.Client.Http
     {
         private readonly Lazy<HttpClient> _httpClient;
 
+        protected HttpClientBase() : this(CreateDefaultClient)
+        {
+        }
+
         protected HttpClientBase(Func<HttpClient> clientFactory)
         {
             Check.NotNull(clientFactory, nameof(clientFactory));
             _httpClient = new Lazy<HttpClient>(clientFactory);
         }
 
-        protected HttpClient Client => _httpClient.Value;
-
         public void Dispose()
         {
-            if (_httpClient.IsValueCreated)
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        protected HttpClient Client => _httpClient.Value;
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (disposing)
             {
-                _httpClient.Value?.Dispose();
+                if (_httpClient.IsValueCreated)
+                {
+                    _httpClient.Value?.Dispose();
+                }
             }
         }
+
+        private static HttpClient CreateDefaultClient() => new HttpClient();
     }
 }
