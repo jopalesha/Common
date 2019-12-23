@@ -6,7 +6,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Jopalesha.Common.Hosting" Version="1.0.4" />
+    <PackageReference Include="Jopalesha.Common.Hosting" Version="1.0.5" />
   </ItemGroup>
 
   <ItemGroup>

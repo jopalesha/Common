@@ -67,6 +67,21 @@ namespace Jopalesha.Common.Data.EntityFramework
             return query.ToList();
         }
 
+        public async Task<bool> ExistsAsync(TKey key, CancellationToken token)
+        {
+            return await AnyAsync(it => it.Id.Equals(key), token);
+        }
+
+        public bool Exists(TKey key)
+        {
+            return Any(it => it.Id.Equals(key));
+        }
+
+        public async Task<bool> AnyAsync(Expression<Func<TEntity, bool>> predicate, CancellationToken token)
+        {
+            return await _set.AnyAsync(predicate, token);
+        }
+
         public bool Any(Expression<Func<TEntity, bool>> predicate)
         {
             return _set.Any(predicate);
@@ -77,9 +92,9 @@ namespace Jopalesha.Common.Data.EntityFramework
             return _query.ToList();
         }
 
-        public async Task<IEnumerable<TEntity>> GetAllAsync(CancellationToken cancellationToken)
+        public async Task<IEnumerable<TEntity>> GetAllAsync(CancellationToken token)
         {
-            return await _query.ToListAsync(cancellationToken);
+            return await _query.ToListAsync(token);
         }
 
         public async Task Remove(TKey key, CancellationToken token)

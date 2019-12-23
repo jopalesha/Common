@@ -12,6 +12,7 @@ using Microsoft.EntityFrameworkCore;
 using Xunit;
 
 // ReSharper disable UnusedAutoPropertyAccessor.Local
+#pragma warning disable CA1063 // Implement IDisposable Correctly
 
 namespace Jopalesha.Common.Data.EntityFramework.Tests
 {
@@ -37,7 +38,7 @@ namespace Jopalesha.Common.Data.EntityFramework.Tests
         }
 
         [Fact]
-        public async Task GetById_IsOk()
+        public async Task GetById_WhenEntityExists_ReturnsEntity()
         {
             var expected = _items.First();
 
@@ -48,7 +49,7 @@ namespace Jopalesha.Common.Data.EntityFramework.Tests
         }
 
         [Fact]
-        public async Task Add_IsOk()
+        public async Task Add_AddsItemToRepository()
         {
             var newItem = _fixture.Create<TestEntity>();
             _sut.Add(newItem);
@@ -58,7 +59,7 @@ namespace Jopalesha.Common.Data.EntityFramework.Tests
         }
 
         [Fact]
-        public async Task GetAll_IsOk()
+        public async Task GetAll_WithQuery_ReturnsEntities()
         {
             var expected = _items.First();
             var query = new Query<TestEntity>()
@@ -71,6 +72,62 @@ namespace Jopalesha.Common.Data.EntityFramework.Tests
             var actual = Assert.Single(list.Items);
             Assert.NotNull(actual);
             Assert.Equal(expected.Id, actual.Id);
+        }
+
+        [Fact]
+        public async Task ExistsAsync_WhenItemsExists_ReturnsTrue()
+        {
+            var item = _items.First();
+
+            Assert.True(await _sut.ExistsAsync(item.Id));
+        }
+
+        [Fact]
+        public async Task ExistsAsync_WhenItemNotExists_ReturnsFalse()
+        {
+            Assert.False(await _sut.ExistsAsync(123123));
+        }
+
+        [Fact]
+        public async Task AnyAsync_WhenItemExists_ReturnsTrue()
+        {
+            var item = _items.First();
+
+            Assert.True(await _sut.AnyAsync(it => it.Value == item.Value));
+        }
+
+        [Fact]
+        public async Task AnyAsync_WhenItemNotExists_ReturnsFalse()
+        {
+            Assert.False(await _sut.AnyAsync(it => it.Value == "notFound"));
+        }
+
+        [Fact]
+        public void Exists_WhenItemsExists_ReturnsTrue()
+        {
+            var item = _items.First();
+
+            Assert.True(_sut.Exists(item.Id));
+        }
+
+        [Fact]
+        public void Exists_WhenItemNotExists_ReturnsFalse()
+        {
+            Assert.False(_sut.Exists(123123));
+        }
+
+        [Fact]
+        public void Any_WhenItemExists_ReturnsTrue()
+        {
+            var item = _items.First();
+
+            Assert.True(_sut.Any(it => it.Value == item.Value));
+        }
+
+        [Fact]
+        public void Any_WhenItemNotExists_ReturnsFalse()
+        {
+            Assert.False(_sut.Any(it => it.Value == "notFound"));
         }
 
         private class TestContext : DbContext

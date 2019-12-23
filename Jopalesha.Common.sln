@@ -102,6 +102,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cache.Sql.Tests.Sample", "C
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cache.Sql.Tests", "Common.Infrastructure\Infrastructure.Cache\Cache.Sql\tests\Cache.Sql.Tests\Cache.Sql.Tests.csproj", "{522393EC-2D3B-49CC-86D9-2DF44D048A56}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Common.Domain.Tests", "Common.Domain\tests\Common.Domain.Tests\Common.Domain.Tests.csproj", "{F46ECE8C-E6FA-418C-B187-62823F9FD42A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -184,6 +186,10 @@ Global
 		{522393EC-2D3B-49CC-86D9-2DF44D048A56}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{522393EC-2D3B-49CC-86D9-2DF44D048A56}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{522393EC-2D3B-49CC-86D9-2DF44D048A56}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F46ECE8C-E6FA-418C-B187-62823F9FD42A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F46ECE8C-E6FA-418C-B187-62823F9FD42A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F46ECE8C-E6FA-418C-B187-62823F9FD42A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F46ECE8C-E6FA-418C-B187-62823F9FD42A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -211,6 +217,7 @@ Global
 		{B4C14FF4-CFB3-4FD7-93A2-B896E5F1547F} = {511287FE-5D40-4EC2-ADF5-F5DF56F2B9EB}
 		{38B603A6-DCAA-4C2F-BFAC-D92E5E8BD9EF} = {511287FE-5D40-4EC2-ADF5-F5DF56F2B9EB}
 		{522393EC-2D3B-49CC-86D9-2DF44D048A56} = {511287FE-5D40-4EC2-ADF5-F5DF56F2B9EB}
+		{F46ECE8C-E6FA-418C-B187-62823F9FD42A} = {D95FB1CC-D87A-4C50-9426-FEA94E68DE00}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {42CCA79B-48BA-4FFE-8D6B-D34A25E87A36}

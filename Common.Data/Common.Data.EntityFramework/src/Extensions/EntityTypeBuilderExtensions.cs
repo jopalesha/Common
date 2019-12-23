@@ -2,7 +2,7 @@
 
 namespace Jopalesha.Common.Data.EntityFramework.Extensions
 {
-    public static class EntityIdExtensions
+    public static class EntityTypeBuilderExtensions
     {
         public static void ConfigureShadowId<T,TKey>(
             this EntityTypeBuilder<T> entity, string idPropertyName = "Id") where T : class

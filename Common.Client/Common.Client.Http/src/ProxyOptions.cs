@@ -12,8 +12,4 @@
 
         public static ProxyOptions FromConfig => new ConfigProxyOptions();
     }
-
-    internal class ConfigProxyOptions : ProxyOptions
-    {
-    }
 }
