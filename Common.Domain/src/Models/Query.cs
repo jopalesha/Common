@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
-using Jopalesha.Common.Infrastructure;
 using Jopalesha.Common.Infrastructure.Extensions;
+using Jopalesha.Common.Infrastructure.Helpers;
 
 namespace Jopalesha.Common.Domain.Models
 {
@@ -33,13 +33,13 @@ namespace Jopalesha.Common.Domain.Models
 
         public Query<TEntity> Skip(int count)
         {
-            Offset = Check.IsTrue(count, It.IsPositive);
+            Offset = Check.IsTrue(count, It.IsPositive.Integer);
             return this;
         }
 
         public Query<TEntity> Take(int count)
         {
-            Count = Check.IsTrue(count, It.IsPositive);
+            Count = Check.IsTrue(count, It.IsPositive.Integer);
             return this;
         }
     }

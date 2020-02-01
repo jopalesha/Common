@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using Jopalesha.Common.Infrastructure;
+using Jopalesha.Common.Infrastructure.Helpers;
 
 namespace Jopalesha.Common.Hosting
 {
@@ -48,12 +48,7 @@ namespace Jopalesha.Common.Hosting
 
         private static HostingType GetType(IEnumerable<string> args)
         {
-            if (args.Contains(HostingArguments.RunAsServiceFlag))
-            {
-                return HostingType.WindowsService;
-            }
-
-            return HostingType.Process;
+            return args.Contains(HostingArguments.RunAsServiceFlag) ? HostingType.WindowsService : HostingType.Process;
         }
     }
 }

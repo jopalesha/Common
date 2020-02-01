@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel;
 using System.Net;
-using Jopalesha.Common.Infrastructure;
+using Jopalesha.Common.Infrastructure.Helpers;
 using MihaZupan;
 
 namespace Jopalesha.Common.Client.Http

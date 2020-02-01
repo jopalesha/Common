@@ -1,5 +1,5 @@
 ﻿using System;
-using Jopalesha.Common.Infrastructure;
+using Jopalesha.Common.Infrastructure.Helpers;
 
 namespace Jopalesha.Common.Client.Http
 {

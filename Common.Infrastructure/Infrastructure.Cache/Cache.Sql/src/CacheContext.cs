@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 
 namespace Jopalesha.Common.Infrastructure.Cache.Sql
 {
@@ -12,6 +13,16 @@ namespace Jopalesha.Common.Infrastructure.Cache.Sql
         {
             base.OnModelCreating(modelBuilder);
             modelBuilder.Entity<CacheItem>().ToTable("Cache");
+        }
+
+        public override void Dispose()
+        {
+            base.Dispose();
+        }
+
+        public override ValueTask DisposeAsync()
+        {
+            return base.DisposeAsync();
         }
     }
 }

@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
@@ -8,35 +7,14 @@ using System.Text.RegularExpressions;
 using DasMulli.Win32.ServiceUtils;
 using Jopalesha.Common.Hosting.Components;
 using Jopalesha.Common.Infrastructure.Logging;
-using Microsoft.AspNetCore;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.PlatformAbstractions;
 
 namespace Jopalesha.Common.Hosting
 {
-    public class Host
+    public static class Host
     {
-        public static IWebHostBuilder CreateWebHostBuilder<T>(string[] args, Action<StartUpOptionsBuilder> setupAction)
-            where T : Startup
-        {
-            var config = new ConfigurationBuilder()
-                .SetBasePath(Directory.GetCurrentDirectory())
-                .AddJsonFile("hosting.json", true)
-                .AddCommandLine(args)
-                .Build();
-
-            var optionsBuilder = new StartUpOptionsBuilder();
-            setupAction(optionsBuilder);
-
-            return WebHost.CreateDefaultBuilder(args)
-                .UseConfiguration(config)
-                .ConfigureServices(services => { services.AddSingleton(it => optionsBuilder.Build()); })
-                .UseStartup<T>();
-        }
-
-        public static void Run<T>(HostingOptions options, Action<StartUpOptionsBuilder> setupAction) where T : Startup 
+        public static void Run(HostingOptions options, IHostBuilder hostBuilder)
         {
             try
             {
@@ -68,12 +46,12 @@ namespace Jopalesha.Common.Hosting
                         {
                             case HostingType.WindowsService:
                             {
-                                RunWindowsService<T>(options.Name, options.Arguments, setupAction);
+                                RunWindowsService(options.Name, hostBuilder.Build());
                                 break;
                             }
                             case HostingType.Process:
                             {
-                                CreateWebHostBuilder<T>(options.Arguments.ToArray(), setupAction).Build().Run();
+                                hostBuilder.Build().Run();
                                 break;
                             }
                             default:
@@ -92,21 +70,13 @@ namespace Jopalesha.Common.Hosting
             }
         }
 
-        private static void RunWindowsService<T>(
+        private static void RunWindowsService(
             string serviceName, 
-            IEnumerable<string> args,
-            Action<StartUpOptionsBuilder> setupAction) where T : Startup
+            IHost host)
         {
             Directory.SetCurrentDirectory(PlatformServices.Default.Application.ApplicationBasePath);
 
-            var serviceArgs = args.Except(new[]
-            {
-                HostingArguments.RunAsServiceFlag,
-                HostingArguments.ServiceNameFlag,
-                serviceName
-            }).ToArray();
-
-            var service = new WebHostService(() => CreateWebHostBuilder<T>(serviceArgs, setupAction).Build(), serviceName);
+            var service = new HostService(host, serviceName);
             var serviceHost = new Win32ServiceHost(service);
             serviceHost.Run();
         }

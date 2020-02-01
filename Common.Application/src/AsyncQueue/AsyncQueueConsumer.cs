@@ -16,14 +16,14 @@ namespace Jopalesha.Common.Application.AsyncQueue
         public AsyncQueueConsumer(
             IMediator mediator,
             IAsyncQueue asyncQueue,
-            ILogger logger)
+            ILogger logger,
+            BackgroundServiceOptions options) : base(options)
         {
             _mediator = mediator;
             _asyncQueue = asyncQueue;
             _logger = logger;
         }
 
-        public override TimeSpan TimeOut => TimeSpan.FromSeconds(10);
         public override string ServiceName => nameof(AsyncQueueConsumer);
 
         protected override async Task Execute(CancellationToken token)

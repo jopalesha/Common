@@ -1,6 +1,6 @@
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
-using Jopalesha.Common.Infrastructure.Cache.Exceptions;
 using Microsoft.EntityFrameworkCore;
 using Xunit;
 
@@ -18,9 +18,9 @@ namespace Jopalesha.Common.Infrastructure.Cache.Sql.Tests
         }
 
         [Fact]
-        public async Task Add_IsOk()
+        public async Task Add_AddsItemToCache()
         {
-            var expected = Create();
+            var expected = CreateItem(5);
 
             await _cache.Add(Key, expected);
 
@@ -28,9 +28,26 @@ namespace Jopalesha.Common.Infrastructure.Cache.Sql.Tests
         }
 
         [Fact]
-        public async Task Delete_IsOK()
+        public async Task AddRange_AddsSeveralItemsToCache()
         {
-            await Add_IsOk();
+            var expected = new Dictionary<string, object>
+            {
+                {"1", CreateItem(1)},
+                {"2", CreateItem(2)}
+            };
+
+            await _cache.AddRange(expected);
+
+            foreach (var (key, value) in expected)
+            {
+                Assert.Equal(value, await _cache.Get<TestClass>(key));
+            }
+        }
+
+        [Fact]
+        public async Task Delete_RemovesItemFromCache()
+        {
+            await Add_AddsItemToCache();
 
             await _cache.Delete(Key);
 
@@ -38,9 +55,9 @@ namespace Jopalesha.Common.Infrastructure.Cache.Sql.Tests
         }
 
         [Fact]
-        public async Task Clear_IsOk()
+        public async Task Clear_DeleteAllItemsFromCache()
         {
-            await Add_IsOk();
+            await Add_AddsItemToCache();
 
             await _cache.Clear();
          
@@ -50,7 +67,7 @@ namespace Jopalesha.Common.Infrastructure.Cache.Sql.Tests
         [Fact]
         public async Task Get_AlreadyExistKey_ThrowsCacheItemAlreadyExistsException()
         {
-            var item = Create();
+            var item = CreateItem(5);
             await _cache.Add(Key, item);
 
             await Assert.ThrowsAsync<CacheItemAlreadyExistsException>(async () => await _cache.Add(Key, item));
@@ -63,9 +80,9 @@ namespace Jopalesha.Common.Infrastructure.Cache.Sql.Tests
         }
 
 
-        private static TestClass Create()
+        private static TestClass CreateItem(int value)
         {
-            return new TestClass(5);
+            return new TestClass(value);
         }
 
         private class TestClass : IEquatable<TestClass>
@@ -75,6 +92,7 @@ namespace Jopalesha.Common.Infrastructure.Cache.Sql.Tests
                 Value = value;
             }
 
+            // ReSharper disable once MemberCanBePrivate.Local
             public int Value { get; }
 
             public bool Equals(TestClass other)
@@ -91,17 +109,13 @@ namespace Jopalesha.Common.Infrastructure.Cache.Sql.Tests
                 return obj.GetType() == GetType() && Equals((TestClass) obj);
             }
 
-            public override int GetHashCode()
-            {
-                return Value.GetHashCode();
-            }
+            public override int GetHashCode() => Value.GetHashCode();
         }
-
     }
 
     public static class ContextOptions
     {
-        public static DbContextOptions<T> InMemory<T>() where T:DbContext
+        public static DbContextOptions<T> InMemory<T>() where T : DbContext
         {
             return new DbContextOptionsBuilder<T>()
                 .UseInMemoryDatabase(Guid.NewGuid().ToString()).Options;

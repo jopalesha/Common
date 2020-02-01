@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using Jopalesha.Common.Infrastructure;
+using Jopalesha.Common.Infrastructure.Helpers;
 
 namespace Jopalesha.Common.Domain.Models
 {
@@ -9,7 +9,7 @@ namespace Jopalesha.Common.Domain.Models
         public ListResult(IEnumerable<T> items, int totalCount)
         {
             Items = Check.NotNull(items, nameof(items)).ToList();
-            TotalCount = Check.IsTrue(totalCount, it => it >= 0, nameof(totalCount));
+            TotalCount = Check.IsTrue(totalCount, It.IsPositive.Integer, nameof(totalCount));
         }
 
         public IReadOnlyList<T> Items { get; }

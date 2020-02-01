@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Threading;
 using System.Threading.Tasks;
+using Jopalesha.Common.Infrastructure.Helpers;
 using Jopalesha.Common.Infrastructure.Logging;
 
 namespace Jopalesha.Common.Application.BackgroundServices
@@ -9,12 +10,19 @@ namespace Jopalesha.Common.Application.BackgroundServices
     {
         private readonly ILogger _logger;
 
-        protected RepeatableBackgroundService()
+        protected RepeatableBackgroundService() : this(BackgroundServiceOptions.Default)
         {
-            _logger = LoggerFactory.Create();
         }
 
-        public abstract TimeSpan TimeOut { get; }
+        protected RepeatableBackgroundService(BackgroundServiceOptions options)
+        {
+            Check.NotNull(options);
+
+            _logger = LoggerFactory.Create();
+            Interval = options.Interval;
+        }
+
+        public TimeSpan Interval { get; }
 
         public abstract string ServiceName { get; }
 
@@ -33,7 +41,7 @@ namespace Jopalesha.Common.Application.BackgroundServices
                     _logger.Error($"Error in {ServiceName}:", e);
                 }
 
-                await Task.Delay(TimeOut, token);
+                await Task.Delay(Interval, token);
             }
 
             _logger.Info($"{ServiceName} stopped.");

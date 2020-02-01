@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using AutoMapper;
+using Jopalesha.Common.Infrastructure.Helpers;
 
 namespace Jopalesha.Common.Infrastructure.Mapper.AutoMapper
 {

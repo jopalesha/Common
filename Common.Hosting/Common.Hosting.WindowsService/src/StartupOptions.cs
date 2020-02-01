@@ -1,6 +1,6 @@
 ﻿namespace Jopalesha.Common.Hosting
 {
-    public class StartupOptions
+    public class StartupOptions : IStartupOptions
     {
         public StartupOptions() : this(false)
         {
@@ -12,5 +12,7 @@
         }
 
         public bool IsSwaggerEnabled { get; }
+
+        public static IStartupOptions Default => new StartupOptions();
     }
 }

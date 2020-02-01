@@ -45,11 +45,6 @@
       "workingDirectory": ".",
       "arguments": "/c Common.Infrastructure\\Infrastructure\\Common.Infrastructure.bat"
     },
-    "Common.Hosting.WindowsService": {
-      "fileName": "cmd.exe",
-      "workingDirectory": ".",
-      "arguments": "/c Common.Hosting\\Common.Hosting.WindowsService\\Common.Hosting.WindowsService.bat"
-    },
     "Common.Tests": {
       "fileName": "cmd.exe",
       "workingDirectory": ".",
@@ -69,6 +64,16 @@
       "fileName": "cmd.exe",
       "workingDirectory": ".",
       "arguments": "/c Common.Infrastructure\\Infrastructure.Cache\\Cache.Sql\\Cache.Sql.bat"
+    },
+    "Common.Hosting": {
+      "fileName": "cmd.exe",
+      "workingDirectory": ".",
+      "arguments": "/c Common.Hosting\\Common.Hosting.WindowsService\\Common.Hosting.bat"
+    },
+    "Logging.Console": {
+      "fileName": "cmd.exe",
+      "workingDirectory": ".",
+      "arguments": "/c Common.Infrastructure\\Infrastructure.Logging\\Logging.Console\\Logging.Console.bat"
     }
   }
 }

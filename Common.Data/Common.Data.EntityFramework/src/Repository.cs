@@ -109,16 +109,16 @@ namespace Jopalesha.Common.Data.EntityFramework
         public async Task<ListResult<TEntity>> GetAll(Query<TEntity> query, CancellationToken token)
         {
             var queryable = FormQueryable(query);
-            var count = queryable.CountAsync(token);
+            var count = await queryable.CountAsync(token);
 
             if (query.Count != 0)
             {
                 queryable = queryable.Take(query.Count);
             }
 
-            var items = queryable.ToListAsync(token);
+            var items = await queryable.ToListAsync(token);
 
-            return new ListResult<TEntity>(await items, await count);
+            return new ListResult<TEntity>(items, count);
         }
 
         protected async Task<TEntity> FindAsync(object id, CancellationToken token)

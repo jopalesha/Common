@@ -19,16 +19,14 @@ namespace Jopalesha.Common.Client.Http
             TRequest data,
             CancellationToken token)
         {
-            using (var request = new HttpRequestMessage
+            using var request = new HttpRequestMessage
             {
                 RequestUri = address,
                 Method = HttpMethod.Get,
                 Content = new ByteArrayContent(Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(data)))
-            })
-            {
-                request.Content.Headers.ContentType = new MediaTypeHeaderValue("application/json");
-                return await GetResult<TResult>(client.SendAsync(request, token), token);
-            }
+            };
+            request.Content.Headers.ContentType = new MediaTypeHeaderValue("application/json");
+            return await GetResult<TResult>(client.SendAsync(request, token), token);
         }
 
         public static async Task<TResult> Put<TRequest, TResult>(
@@ -64,19 +62,15 @@ namespace Jopalesha.Common.Client.Http
             Task<HttpResponseMessage> task,
             CancellationToken token)
         {
-            using (var response = await task.ConfigureAwait(false))
-            {
-                response.EnsureSuccessStatusCode();
-                return await response.Content.ReadAsAsync<T>(token);
-            }
+            using var response = await task.ConfigureAwait(false);
+            response.EnsureSuccessStatusCode();
+            return await response.Content.ReadAsAsync<T>(token);
         }
 
         private static async Task ProcessTask(Task<HttpResponseMessage> task)
         {
-            using (var response = await task.ConfigureAwait(false))
-            {
-                response.EnsureSuccessStatusCode();
-            }
+            using var response = await task.ConfigureAwait(false);
+            response.EnsureSuccessStatusCode();
         }
     }
 }

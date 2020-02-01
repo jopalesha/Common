@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Jopalesha.Common.Infrastructure.Cache.Exceptions
+namespace Jopalesha.Common.Infrastructure.Cache
 {
     public class CacheItemNotFoundException : CacheException
     {

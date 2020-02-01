@@ -1,16 +1,15 @@
-﻿using System;
-using DasMulli.Win32.ServiceUtils;
-using Microsoft.AspNetCore.Hosting;
+﻿using DasMulli.Win32.ServiceUtils;
+using Microsoft.Extensions.Hosting;
 
 namespace Jopalesha.Common.Hosting.Components
 {
-    internal class WebHostService : IWin32Service
+    internal class HostService : IWin32Service
     {
-        private readonly IWebHost _webHost;
+        private readonly IHost _host;
 
-        public WebHostService(Func<IWebHost> factory, string serviceName) 
+        public HostService(IHost host, string serviceName)
         {
-            _webHost = factory();
+            _host = host;
             ServiceName = serviceName;
         }
 
@@ -18,13 +17,13 @@ namespace Jopalesha.Common.Hosting.Components
 
         public void Start(string[] startupArguments, ServiceStoppedCallback serviceStoppedCallback)
         {
-            _webHost.Start();
+            _host.Start();
         }
 
         public void Stop()
         {
-            _webHost.StopAsync().Wait();
-            _webHost.Dispose();
+            _host.StopAsync().Wait();
+            _host.Dispose();
         }
     }
 }

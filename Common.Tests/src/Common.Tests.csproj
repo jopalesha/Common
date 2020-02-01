@@ -1,25 +1,24 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netstandard2.0</TargetFramework>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
     <AssemblyName>Jopalesha.Common.Tests</AssemblyName>
     <LangVersion>latest</LangVersion>
     <RootNamespace>Jopalesha.Common.Tests</RootNamespace>
-    <Version>1.0.3</Version>
+    <Version>1.0.6</Version>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
   </PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="AutoFixture" Version="4.11.0" />
     <PackageReference Include="AutoFixture.AutoMoq" Version="4.11.0" />
     <PackageReference Include="AutoFixture.Xunit2" Version="4.11.0" />
-    <PackageReference Include="Jopalesha.Common.Client.Http" Version="1.0.2" />
-    <PackageReference Include="Jopalesha.Common.Hosting" Version="1.0.5" />
-    <PackageReference Include="Jopalesha.Common.Infrastructure" Version="1.0.8" />
-    <PackageReference Include="Microsoft.AspNetCore.Mvc.Testing" Version="2.2.0" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="2.2.6" />
-    <PackageReference Include="SimpleInjector" Version="4.6.0" />
+    <PackageReference Include="Jopalesha.Common.Client.Http" Version="1.0.4" />
+    <PackageReference Include="Jopalesha.Common.Hosting" Version="1.0.11" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.Testing" Version="3.1.1" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="3.1.1" />
+    <PackageReference Include="SimpleInjector" Version="4.9.0" />
     <PackageReference Include="System.ComponentModel.TypeConverter" Version="4.3.0" />
-    <PackageReference Include="xunit.assert" Version="2.4.1" />
   </ItemGroup>
 
 </Project>

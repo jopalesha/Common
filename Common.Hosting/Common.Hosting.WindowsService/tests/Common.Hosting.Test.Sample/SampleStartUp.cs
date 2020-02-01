@@ -1,4 +1,5 @@
-﻿using Jopalesha.Common.Application.AsyncQueue;
+﻿using System;
+using Jopalesha.Common.Application.AsyncQueue;
 using Jopalesha.Common.Application.Mediator;
 using Jopalesha.Common.Hosting.Test.Sample.Components;
 using Jopalesha.Common.Hosting.Test.Sample.Handlers;
@@ -8,13 +9,13 @@ namespace Jopalesha.Common.Hosting.Test.Sample
 {
     public class SampleStartup : Startup
     {
-        public SampleStartup(StartupOptions options) : base(options)
+        public SampleStartup() : base(new StartupOptions(true))
         {
         }
 
         public override void SetUpContainer(Container container)
         {
-            container.AddAsyncQueue(new AsyncQueueOptions(2));
+            container.AddAsyncQueue(new AsyncQueueOptions(2, TimeSpan.FromSeconds(10)));
 
             container.Register<IValueStorage, ValueStorage>(Lifestyle.Singleton);
             container.Register<IHistoryStorage, HistoryStorage>(Lifestyle.Scoped);

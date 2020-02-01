@@ -5,24 +5,27 @@ using Jopalesha.Common.Hosting.Middlewares;
 using Jopalesha.Common.Infrastructure.Configuration.Json;
 using Jopalesha.Common.Infrastructure.Extensions;
 using Jopalesha.Common.Infrastructure.Logging;
-using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
 using SimpleInjector;
 using SimpleInjector.Lifestyles;
-using Swashbuckle.AspNetCore.Swagger;
-using IHostingEnvironment = Microsoft.AspNetCore.Hosting.IHostingEnvironment;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
+using Microsoft.OpenApi.Models;
+// ReSharper disable UnusedMember.Global
 
 namespace Jopalesha.Common.Hosting
 {
     public abstract class Startup
     {
-        private readonly StartupOptions _options;
+        private readonly IStartupOptions _options;
         private readonly ILogger _logger;
 
-        protected Startup(StartupOptions options)
+        protected Startup() : this(StartupOptions.Default)
+        {
+        }
+
+        protected Startup(IStartupOptions options)
         {
             Container = new Container();
             _logger = LoggerFactory.Create();
@@ -39,52 +42,47 @@ namespace Jopalesha.Common.Hosting
 
         public virtual void ConfigureServices(IServiceCollection services)
         {
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Latest);
+            services.AddMvc();
+            services.AddRazorPages();
+            services.AddControllersWithViews();
+
+            Container.Options.DefaultScopedLifestyle = DefaultScopedLifestyle;
+            Container.Options.AllowOverridingRegistrations = AllowOverridingRegistrations;
 
             services.AddSimpleInjector(Container, options =>
             {
-                options.Container.Options.DefaultScopedLifestyle = DefaultScopedLifestyle;
-                options.Container.Options.AllowOverridingRegistrations = AllowOverridingRegistrations;
+                options.AddAspNetCore()
+                    .AddControllerActivation()
+                    .AddViewComponentActivation()
+                    .AddPageModelActivation()
+                    .AddTagHelperActivation();
 
-                options.AddAspNetCore().AddControllerActivation();
+                options.AutoCrossWireFrameworkComponents = true;
 
-                options.Services.AddHttpContextAccessor();
-                options.Services.EnableSimpleInjectorCrossWiring(Container);
-                options.Services.UseSimpleInjectorAspNetRequestScoping(Container);
+                InitializeContainer(Container);
+
+                var types = options.Container.GetCurrentRegistrations()
+                    .Where(it => it.ServiceType.Implements<IBackgroundService>());
+
+                if (types.Any())
+                {
+                    options.AddHostedService<CompositeBackgroundService>();
+                }
             });
+
+
+
+            services.AddHttpContextAccessor();
+            services.UseSimpleInjectorAspNetRequestScoping(Container);
 
             ApplyOptions(services);
-
-            services.AddSingleton(_ =>
-            {
-                var currentRegistrations = Container.GetCurrentRegistrations();
-
-                if (currentRegistrations.Any(it => it.ServiceType.Implements<IBackgroundService>()))
-                {
-                    return Container.GetAllInstances<IHostedService>();
-                }
-
-                return Enumerable.Empty<IHostedService>();
-            });
         }
 
-        public virtual void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public virtual void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-            app.UseSimpleInjector(Container, options =>
-            {
-                options.UseMiddleware<ExceptionLoggingMiddleware>(app);
-                options.AutoCrossWireFrameworkComponents = true;
-            });
-
-            Container.RegisterSingleton(LoggerFactory.Create);
-            Container.UseJsonConfiguration();
-            Container.AddMediator();
-
-            SetUpContainer(Container);
             ApplyOptions(app);
-            Container.InitializeBackgroundServices();
 
-            Container.Verify();
+            app.UseMiddleware<ExceptionLoggingMiddleware>(Container);
 
             if (env.IsDevelopment())
             {
@@ -96,9 +94,27 @@ namespace Jopalesha.Common.Hosting
             }
 
             app.UseHttpsRedirection();
-            app.UseMvc();
+            app.UseRouting();
+            app.UseEndpoints(it =>
+            {
+                it.MapRazorPages();
+                it.MapControllerRoute(
+                    name: "default",
+                    pattern: "{controller=Home}/{action=Index}/{id?}");
+            });
+
+            Container.Verify();
 
             _logger.Info("Application started");
+        }
+
+        private void InitializeContainer(Container container)
+        {
+            container.RegisterSingleton(LoggerFactory.Create);
+            container.UseJsonConfiguration();
+            container.AddMediator();
+
+            SetUpContainer(container);
         }
 
         private void ApplyOptions(IServiceCollection services)
@@ -107,7 +123,7 @@ namespace Jopalesha.Common.Hosting
             {
                 services.AddSwaggerGen(c =>
                 {
-                    c.SwaggerDoc("v1", new Info { Version = "v1" });
+                    c.SwaggerDoc("v1", new OpenApiInfo { Title = "My API", Version = "v1" });
                 });
             }
         }
@@ -119,7 +135,7 @@ namespace Jopalesha.Common.Hosting
                 app.UseSwagger();
                 app.UseSwaggerUI(c =>
                 {
-                    c.SwaggerEndpoint("/swagger/v1/swagger.json", "api_v1");
+                    c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1");
                 });
             }
         }

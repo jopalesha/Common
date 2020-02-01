@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using Jopalesha.Common.Infrastructure;
+using Jopalesha.Common.Infrastructure.Helpers;
 
 namespace Jopalesha.Common.Domain
 {

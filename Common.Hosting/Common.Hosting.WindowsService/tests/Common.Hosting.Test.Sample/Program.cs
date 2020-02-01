@@ -1,8 +1,6 @@
-﻿using System;
-using Jopalesha.Common.Hosting.Test.Sample.Components;
-using Jopalesha.Common.Infrastructure.Logging;
-using Microsoft.AspNetCore.Hosting;
-// ReSharper disable UnusedMember.Global
+﻿using Jopalesha.Common.Infrastructure.Logging;
+using Jopalesha.Common.Infrastructure.Logging.Console;
+using Microsoft.Extensions.Hosting;
 
 namespace Jopalesha.Common.Hosting.Test.Sample
 {
@@ -13,15 +11,10 @@ namespace Jopalesha.Common.Hosting.Test.Sample
         public static void Main(string[] args)
         {
             LoggerFactory.SetCurrent(new ConsoleLoggerFactory());
-            Host.Run<SampleStartup>(new HostingOptions(ServiceName, args), SetUpOptions);
+            Host.Run(new HostingOptions(ServiceName, args), CreateHostBuilder(args));
         }
 
-        public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
-            Host.CreateWebHostBuilder<Startup>(args, SetUpOptions);
-
-        private static Action<StartUpOptionsBuilder> SetUpOptions => builder =>
-        {
-            builder.EnableSwagger();
-        };
+        public static IHostBuilder CreateHostBuilder(string[] args) =>
+            HostBuilder.Create<SampleStartup>(args);
     }
 }

@@ -1,10 +1,11 @@
-﻿namespace Jopalesha.Common.Infrastructure.Cache.Sql
+﻿using Jopalesha.Common.Infrastructure.Cache.Common;
+
+namespace Jopalesha.Common.Infrastructure.Cache.Sql
 {
-    public class SqlCacheOptions
+    public class SqlCacheOptions : ICacheOptions
     {
         public SqlCacheOptions(string connectionName) : this(connectionName, false)
         {
-            ConnectionName = connectionName;
         }
 
         public SqlCacheOptions(string connectionName, bool isBackground)

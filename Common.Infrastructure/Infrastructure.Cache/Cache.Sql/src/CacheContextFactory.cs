@@ -1,7 +1,9 @@
 ﻿using System;
 using Jopalesha.Common.Infrastructure.Configuration.Json;
+using Jopalesha.Common.Infrastructure.Helpers;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
+// ReSharper disable UnusedMember.Global
 
 namespace Jopalesha.Common.Infrastructure.Cache.Sql
 {
@@ -13,10 +15,7 @@ namespace Jopalesha.Common.Infrastructure.Cache.Sql
         {
         }
 
-        public CacheContextFactory(SqlCacheOptions options)
-        {
-            _options = Check.NotNull(options);
-        }
+        public CacheContextFactory(SqlCacheOptions options) => _options = Check.NotNull(options);
 
         public CacheContext CreateDbContext() => CreateDbContext(Array.Empty<string>());
 

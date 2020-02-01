@@ -1,29 +1,32 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netstandard2.0</TargetFramework>
+    <TargetFrameworks>netcoreapp3.1</TargetFrameworks>
     <AssemblyName>Jopalesha.Common.Hosting</AssemblyName>
-    <LangVersion>8</LangVersion>
+    <LangVersion>latest</LangVersion>
     <RootNamespace>Jopalesha.Common.Hosting</RootNamespace>
     <UserSecretsId>fe20d92e-c286-4019-ac04-ab12d89d15c0</UserSecretsId>
-    <Version>1.0.5</Version>
+    <Version>1.0.11</Version>
+    <AssemblyVersion>1.0.11.0</AssemblyVersion>
+    <FileVersion>1.0.11.0</FileVersion>
   </PropertyGroup>
 
   <ItemGroup>
+    <FrameworkReference Include="Microsoft.AspNetCore.App" />
     <PackageReference Include="DasMulli.Win32.ServiceUtils" Version="1.2.0" />
-    <PackageReference Include="Jopalesha.Common.Application" Version="1.0.5" />
-    <PackageReference Include="Jopalesha.Common.Infrastructure" Version="1.0.8" />
-    <PackageReference Include="Jopalesha.Common.Infrastructure.Configuration.Json" Version="1.0.0" />
-    <PackageReference Include="Microsoft.AspNetCore" Version="2.2.0" />
-    <PackageReference Include="Microsoft.AspNetCore.HttpsPolicy" Version="2.2.0" />
-    <PackageReference Include="Microsoft.AspNetCore.Mvc" Version="2.2.0" />
-    <PackageReference Include="Microsoft.Extensions.Configuration" Version="2.2.0" />
+    <PackageReference Include="Jopalesha.Common.Application" Version="1.0.13" />
+    <PackageReference Include="Jopalesha.Common.Infrastructure" Version="1.0.13" />
+    <PackageReference Include="Jopalesha.Common.Infrastructure.Configuration.Json" Version="1.0.3" />
+    <PackageReference Include="Microsoft.Extensions.Hosting" Version="3.1.1" />
     <PackageReference Include="Microsoft.Extensions.PlatformAbstractions" Version="1.1.0" />
-    <PackageReference Include="SimpleInjector" Version="4.6.0" />
-    <PackageReference Include="SimpleInjector.Integration.AspNetCore.Mvc" Version="4.6.0" />
-    <PackageReference Include="SimpleInjector.Integration.GenericHost" Version="4.6.0" />
-    <PackageReference Include="Swashbuckle.AspNetCore" Version="4.0.1" />
-    <PackageReference Include="System.ServiceProcess.ServiceController" Version="4.5.0" />
+    <PackageReference Include="Microsoft.OpenApi" Version="1.1.4" />
+    <PackageReference Include="SimpleInjector" Version="4.9.0" />
+    <PackageReference Include="SimpleInjector.Integration.AspNetCore.Mvc" Version="4.9.0" />
+    <PackageReference Include="SimpleInjector.Integration.GenericHost" Version="4.9.0" />
+    <PackageReference Include="Swashbuckle.AspNetCore.Swagger" Version="5.0.0-rc5" />
+    <PackageReference Include="Swashbuckle.AspNetCore.SwaggerGen" Version="5.0.0-rc5" />
+    <PackageReference Include="Swashbuckle.AspNetCore.SwaggerUi" Version="5.0.0-rc5" />
+    <PackageReference Include="System.ServiceProcess.ServiceController" Version="4.7.0" />
   </ItemGroup>
 
 </Project>

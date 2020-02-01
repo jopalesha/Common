@@ -1,4 +1,6 @@
-﻿namespace Jopalesha.Common.Infrastructure.Logging
+﻿using Jopalesha.Common.Infrastructure.Helpers;
+
+namespace Jopalesha.Common.Infrastructure.Logging
 {
     public class LoggerFactory
     {
@@ -11,7 +13,7 @@
 
         public static ILogger Create()
         {
-            Check.NotNull(_logFactory, message:"Logger factory doesn't initialized");
+            Check.NotNull(_logFactory, nameof(_logFactory), "Logger factory doesn't initialized");
             return _logFactory.Create();
         }
     }
