@@ -115,6 +115,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Common.Hosting.Test.Nuget",
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Common.Hosting.Test.Nuget.Tests", "Common.Hosting\Common.Hosting.WindowsService\tests\Common.Hostring.Test.Nuget.Tests\Common.Hosting.Test.Nuget.Tests.csproj", "{ECB06002-BA9D-4DCE-A23C-16E8F15B7E78}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Domain.EF.IntegrationTests", "Common.Domain\tests\Domain.EF.IntegrationTests\Domain.EF.IntegrationTests.csproj", "{2DD23C53-BB93-4EC9-AF90-FCE7CF34EAA9}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -221,6 +223,10 @@ Global
 		{ECB06002-BA9D-4DCE-A23C-16E8F15B7E78}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{ECB06002-BA9D-4DCE-A23C-16E8F15B7E78}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{ECB06002-BA9D-4DCE-A23C-16E8F15B7E78}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2DD23C53-BB93-4EC9-AF90-FCE7CF34EAA9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2DD23C53-BB93-4EC9-AF90-FCE7CF34EAA9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2DD23C53-BB93-4EC9-AF90-FCE7CF34EAA9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2DD23C53-BB93-4EC9-AF90-FCE7CF34EAA9}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -254,6 +260,7 @@ Global
 		{89BE303D-B343-46A3-9B0A-BB3B6881F076} = {8468C199-D21A-45A9-9EBB-DAC2DDBFCA70}
 		{0B6E3AB0-9CFA-4F30-81C1-3F75838CE969} = {B6C1B2E0-BD1A-4B82-899F-92DE0110AF51}
 		{ECB06002-BA9D-4DCE-A23C-16E8F15B7E78} = {B6C1B2E0-BD1A-4B82-899F-92DE0110AF51}
+		{2DD23C53-BB93-4EC9-AF90-FCE7CF34EAA9} = {D95FB1CC-D87A-4C50-9426-FEA94E68DE00}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {42CCA79B-48BA-4FFE-8D6B-D34A25E87A36}

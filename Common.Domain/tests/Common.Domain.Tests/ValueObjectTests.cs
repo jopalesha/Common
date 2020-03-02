@@ -1,4 +1,5 @@
-using System;
+using System.Collections.Generic;
+using JetBrains.Annotations;
 using Jopalesha.Common.Domain;
 using Xunit;
 
@@ -7,36 +8,67 @@ namespace Common.Domain.Tests
     public class ValueObjectTests
     {
         [Fact]
-        public void SameValueObject_Equals_ReturnsTrue()
+        public void DifferentValueObjects_NotEquals()
         {
-            var valueObject1 = new TestValueObject("value");
-            var valueObject2 = new TestValueObject("value");
+            var value1 = new TestValueObject(1);
+            var value2 = new TestValueObject(2);
 
-            Assert.Equal(valueObject1, valueObject2);
-            Assert.Equal(valueObject1.GetHashCode(), valueObject2.GetHashCode());
+            Verify(value1, value2, false);
         }
 
         [Fact]
-        public void SameValueObjectWithCustomComparer_Equals_ReturnsTrue()
+        public void SameValueObject_Equals()
         {
-            var valueObject1 = new StringValueObject("value");
-            var valueObject2 = new StringValueObject("Value");
+            var value1 = new TestValueObject(1);
+            var value2 = new TestValueObject(1);
 
-            Assert.Equal(valueObject1, valueObject2);
-            Assert.Equal(valueObject1.GetHashCode(), valueObject2.GetHashCode());
+            Verify(value1, value2, true);
         }
 
-        private class TestValueObject : ValueObject<string>
+        [Fact]
+        public void SameStringValueObject_Equals()
         {
-            public TestValueObject(string value) : base(value)
+            var value1 = new StringValueObject("value");
+            var value2 = new StringValueObject("Value");
+
+            Verify(value1, value2, true);
+        }
+
+        [AssertionMethod]
+        private static void Verify(ValueObject value1, ValueObject value2, bool isEqual)
+        {
+            Assert.True(value1.Equals(value2) == isEqual);
+            Assert.True(Equals(value1, value2) == isEqual);
+            Assert.Equal(isEqual, value1.GetHashCode() == value2.GetHashCode());
+        }
+
+        private class TestValueObject : ValueObject
+        {
+            public TestValueObject(int value)
             {
+                Value = value;
+            }
+
+            private int Value { get; }
+
+            protected override IEnumerable<object> GetEqualityMembers()
+            {
+                yield return Value;
             }
         }
 
-        private class StringValueObject : ValueObject<string>
+        private class StringValueObject : ValueObject
         {
-            public StringValueObject(string value) : base(value, StringComparer.OrdinalIgnoreCase)
+            public StringValueObject(string value)
             {
+                Value = value;
+            }
+
+            private string Value { get; }
+
+            protected override IEnumerable<object> GetEqualityMembers()
+            {
+                yield return Value.ToLower();
             }
         }
     }

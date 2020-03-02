@@ -4,7 +4,7 @@ using Host = Jopalesha.Common.Hosting.Host;
 
 namespace Common.Hosting.Test.Nuget
 {
-    public class Program
+    public static class Program
     {
         private const string ServiceName = "Hosting.Sample";
 

@@ -1,6 +1,6 @@
 ﻿namespace Jopalesha.Common.Hosting
 {
-    public class HostingArguments
+    public static class HostingArguments
     {
         public const string RunAsServiceFlag = "--run-as-service";
         public const string InstallFlag = "install";

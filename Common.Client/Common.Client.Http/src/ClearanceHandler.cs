@@ -143,15 +143,13 @@ namespace Jopalesha.Common.Client.Http
             var solution = ChallengeSolver.Solve(pageContent, host);
             var clearanceUri = $"{scheme}://{host}{solution.ClearanceQuery}";
             await Task.Delay(5000, cancellationToken);
-            using (var clearanceRequest = new HttpRequestMessage(HttpMethod.Get, clearanceUri))
+            using var clearanceRequest = new HttpRequestMessage(HttpMethod.Get, clearanceUri);
+            if (response.RequestMessage.Headers.TryGetValues("User-Agent", out var userAgent))
             {
-                if (response.RequestMessage.Headers.TryGetValues("User-Agent", out var userAgent))
-                {
-                    clearanceRequest.Headers.Add("User-Agent", userAgent);
-                }
-
-                await _client.SendAsync(clearanceRequest, cancellationToken);
+                clearanceRequest.Headers.Add("User-Agent", userAgent);
             }
+
+            await _client.SendAsync(clearanceRequest, cancellationToken);
         }
 
         private void SaveIdCookie(HttpResponseMessage response)

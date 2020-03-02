@@ -2,7 +2,7 @@
 
 namespace Jopalesha.Common.Infrastructure.Logging
 {
-    public class LoggerFactory
+    public static class LoggerFactory
     {
         private static ILoggerFactory _logFactory = new DefaultLoggerFactory();
 

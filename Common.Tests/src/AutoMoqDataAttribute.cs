@@ -1,10 +1,12 @@
 ﻿using AutoFixture;
 using AutoFixture.AutoMoq;
 using AutoFixture.Xunit2;
+using JetBrains.Annotations;
 
 namespace Jopalesha.Common.Tests
 {
-    public class AutoMoqDataAttribute : AutoDataAttribute
+    [UsedImplicitly]
+    public sealed class AutoMoqDataAttribute : AutoDataAttribute
     {
         public AutoMoqDataAttribute()
             : base(() => new Fixture().Customize(new AutoMoqCustomization()))

@@ -5,9 +5,9 @@
     <AssemblyName>Jopalesha.Common.Domain</AssemblyName>
     <RootNamespace>Jopalesha.Common.Domain</RootNamespace>
     <LangVersion>latest</LangVersion>
-    <AssemblyVersion>1.0.4.0</AssemblyVersion>
-    <FileVersion>1.0.4.0</FileVersion>
-    <Version>1.0.4</Version>
+    <AssemblyVersion>1.0.6.0</AssemblyVersion>
+    <FileVersion>1.0.6.0</FileVersion>
+    <Version>1.0.6</Version>
   </PropertyGroup>
 
   <ItemGroup>

@@ -6,9 +6,9 @@
     <LangVersion>latest</LangVersion>
     <RootNamespace>Jopalesha.Common.Hosting</RootNamespace>
     <UserSecretsId>fe20d92e-c286-4019-ac04-ab12d89d15c0</UserSecretsId>
-    <Version>1.0.11</Version>
-    <AssemblyVersion>1.0.11.0</AssemblyVersion>
-    <FileVersion>1.0.11.0</FileVersion>
+    <Version>1.0.12</Version>
+    <AssemblyVersion>1.0.12.0</AssemblyVersion>
+    <FileVersion>1.0.12.0</FileVersion>
   </PropertyGroup>
 
   <ItemGroup>
@@ -16,8 +16,8 @@
     <PackageReference Include="DasMulli.Win32.ServiceUtils" Version="1.2.0" />
     <PackageReference Include="Jopalesha.Common.Application" Version="1.0.13" />
     <PackageReference Include="Jopalesha.Common.Infrastructure" Version="1.0.13" />
-    <PackageReference Include="Jopalesha.Common.Infrastructure.Configuration.Json" Version="1.0.3" />
-    <PackageReference Include="Microsoft.Extensions.Hosting" Version="3.1.1" />
+    <PackageReference Include="Jopalesha.Common.Infrastructure.Configuration.Json" Version="1.0.4" />
+    <PackageReference Include="Microsoft.Extensions.Hosting" Version="3.1.2" />
     <PackageReference Include="Microsoft.Extensions.PlatformAbstractions" Version="1.1.0" />
     <PackageReference Include="Microsoft.OpenApi" Version="1.1.4" />
     <PackageReference Include="SimpleInjector" Version="4.9.0" />
