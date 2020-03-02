@@ -137,11 +137,11 @@ namespace Jopalesha.Common.Data.EntityFramework
             return entity;
         }
 
-        protected virtual Expression<Func<TEntity, object>>[] GetGetIncludes() => null;
+        protected virtual Expression<Func<TEntity, object>>[] GetIncludes() => Array.Empty<Expression<Func<TEntity, object>>>();
 
         private IQueryable<TEntity> AddIncludes(IQueryable<TEntity> set)
         {
-            var includes = GetGetIncludes();
+            var includes = GetIncludes();
 
             if (includes != null && includes.Length > 0)
             {
