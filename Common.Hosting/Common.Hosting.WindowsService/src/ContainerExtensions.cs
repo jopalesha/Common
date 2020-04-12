@@ -1,6 +1,6 @@
 ﻿using System.Linq;
 using Jopalesha.Common.Application.BackgroundServices;
-using Jopalesha.Common.Infrastructure.Extensions;
+using Jopalesha.Helpers.Extensions;
 using Microsoft.Extensions.Hosting;
 using SimpleInjector;
 

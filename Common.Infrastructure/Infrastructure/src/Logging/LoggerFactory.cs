@@ -1,4 +1,4 @@
-﻿using Jopalesha.Common.Infrastructure.Helpers;
+﻿using Jopalesha.CheckWhenDoIt;
 
 namespace Jopalesha.Common.Infrastructure.Logging
 {
@@ -11,10 +11,6 @@ namespace Jopalesha.Common.Infrastructure.Logging
             _logFactory = Check.NotNull(logFactory);
         }
 
-        public static ILogger Create()
-        {
-            Check.NotNull(_logFactory, nameof(_logFactory), "Logger factory doesn't initialized");
-            return _logFactory.Create();
-        }
+        public static ILogger Create() => _logFactory.Create();
     }
 }

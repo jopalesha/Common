@@ -32,10 +32,10 @@ namespace Jopalesha.Common.Infrastructure.Cache.Sql.Tests.Sample
             {
                 var services = container.GetInstance<IEnumerable<IBackgroundService>>().ToList();
                 var cacheService = services.OfType<CacheBackgroundService>().Single();
-                var asyncQueueService = services.OfType<AsyncQueueConsumer>().Single();
+                var asyncQueueConsumer = services.OfType<AsyncQueueConsumer>().Single();
 
                 await Task.Factory.StartNew(() => cacheService.ExecuteAsync(CancellationToken.None));
-                await Task.Factory.StartNew(() => asyncQueueService.ExecuteAsync(CancellationToken.None));
+                await Task.Factory.StartNew(() => asyncQueueConsumer.ExecuteAsync(CancellationToken.None));
 
                 var cache = container.GetInstance<ICache>();
 

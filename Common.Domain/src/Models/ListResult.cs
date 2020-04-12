@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using Jopalesha.Common.Infrastructure.Helpers;
+using Jopalesha.CheckWhenDoIt;
 
 namespace Jopalesha.Common.Domain.Models
 {

@@ -4,15 +4,15 @@
     <TargetFramework>netstandard2.1</TargetFramework>
     <AssemblyName>Jopalesha.Common.Application</AssemblyName>
     <RootNamespace>Jopalesha.Common.Application</RootNamespace>
-    <Version>1.0.13</Version>
-    <AssemblyVersion>1.0.13.0</AssemblyVersion>
-    <FileVersion>1.0.13.0</FileVersion>
+    <Version>1.0.14</Version>
+    <AssemblyVersion>1.0.14.0</AssemblyVersion>
+    <FileVersion>1.0.14.0</FileVersion>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Jopalesha.Common.Infrastructure" Version="1.0.13" />
-    <PackageReference Include="MediatR" Version="8.0.0" />
-    <PackageReference Include="SimpleInjector" Version="4.9.0" />
+    <PackageReference Include="Jopalesha.Common.Infrastructure" Version="1.0.15" />
+    <PackageReference Include="MediatR" Version="8.0.1" />
+    <PackageReference Include="SimpleInjector" Version="4.9.2" />
   </ItemGroup>
 
   <ItemGroup>

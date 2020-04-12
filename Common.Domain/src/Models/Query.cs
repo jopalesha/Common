@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
-using Jopalesha.Common.Infrastructure.Extensions;
-using Jopalesha.Common.Infrastructure.Helpers;
+using Jopalesha.CheckWhenDoIt;
+using Jopalesha.Helpers.Extensions;
 
 namespace Jopalesha.Common.Domain.Models
 {

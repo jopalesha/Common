@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using Jopalesha.Common.Infrastructure.Helpers;
+using Jopalesha.CheckWhenDoIt;
 
 namespace Jopalesha.Common.Hosting
 {
@@ -10,7 +10,7 @@ namespace Jopalesha.Common.Hosting
 
         public HostingOptions(string name, string[] args)
         {
-            Name = Check.NotNullOrEmpty(name);
+            Name = Check.NotEmpty(name);
             Operation = GetOperation(args);
             Type = GetType(args);
             _arguments = args;

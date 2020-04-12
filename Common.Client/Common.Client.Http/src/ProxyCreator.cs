@@ -1,5 +1,5 @@
 ﻿using System.Net;
-using Jopalesha.Common.Infrastructure.Helpers;
+using Jopalesha.CheckWhenDoIt;
 
 namespace Jopalesha.Common.Client.Http
 {
@@ -9,7 +9,7 @@ namespace Jopalesha.Common.Client.Http
 
         public ProxyCreator(string address)
         {
-            _address = Check.NotNullOrEmpty(address);
+            _address = Check.NotEmpty(address);
         }
 
         public virtual WebProxy Create()

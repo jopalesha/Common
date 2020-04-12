@@ -1,4 +1,4 @@
-﻿using System;
+﻿using Jopalesha.CheckWhenDoIt;
 
 namespace Jopalesha.Common.Domain
 {
@@ -6,7 +6,7 @@ namespace Jopalesha.Common.Domain
     {
         public Key(T value) : this()
         {
-            Value = value ?? throw new ArgumentNullException(nameof(value));
+            Value = Check.NotNull(value);
         }
 
         protected Key() { }

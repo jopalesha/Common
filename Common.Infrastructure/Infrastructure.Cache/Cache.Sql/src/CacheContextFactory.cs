@@ -1,6 +1,6 @@
 ﻿using System;
+using Jopalesha.CheckWhenDoIt;
 using Jopalesha.Common.Infrastructure.Configuration.Json;
-using Jopalesha.Common.Infrastructure.Helpers;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
 // ReSharper disable UnusedMember.Global

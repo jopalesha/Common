@@ -2,7 +2,7 @@
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using Jopalesha.Common.Infrastructure.Helpers;
+using Jopalesha.CheckWhenDoIt;
 using Newtonsoft.Json;
 
 namespace Jopalesha.Common.Infrastructure.Cache.Sql
@@ -18,7 +18,7 @@ namespace Jopalesha.Common.Infrastructure.Cache.Sql
 
         public async Task Add<T>(string key, T item, CancellationToken token)
         {
-            Check.NotNullOrEmpty(key, nameof(key));
+            Check.NotEmpty(key, nameof(key));
             Check.NotNull(item, nameof(item));
 
             if (await FindItemAsync(key, token) != null)
@@ -32,7 +32,7 @@ namespace Jopalesha.Common.Infrastructure.Cache.Sql
 
         public async Task AddRange(IDictionary<string, object> items, CancellationToken token)
         {
-            Check.NotNullOrEmpty(items, nameof(items));
+            Check.NotEmpty(items, nameof(items));
 
             await _context.AddRangeAsync(items.Select(it => CreateCacheItem(it.Key, it.Value)), token);
             await SaveChanges(token);

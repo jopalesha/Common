@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using AutoMapper;
-using Jopalesha.Common.Infrastructure.Helpers;
+using Jopalesha.CheckWhenDoIt;
 
 namespace Jopalesha.Common.Infrastructure.Mapper.AutoMapper
 {
@@ -11,7 +11,7 @@ namespace Jopalesha.Common.Infrastructure.Mapper.AutoMapper
 
         public AutoMapperFactory(List<Profile> profiles)
         {
-            _profiles = Check.NotNullOrEmpty(profiles);
+            _profiles = Check.NotEmpty(profiles);
         }
 
         public global::AutoMapper.IMapper Create()

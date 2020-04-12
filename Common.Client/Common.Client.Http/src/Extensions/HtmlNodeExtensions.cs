@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using HtmlAgilityPack;
-using Jopalesha.Common.Infrastructure.Helpers;
 using Jopalesha.Common.Infrastructure.Logging;
+using Jopalesha.Helpers;
 
 namespace Jopalesha.Common.Client.Http.Extensions
 {
@@ -30,7 +30,7 @@ namespace Jopalesha.Common.Client.Http.Extensions
                 {
                     var innerHtml = htmlNode.InnerHtml.Trim();
 
-                    if (StringHelper.TryParseToDouble(innerHtml, out double value))
+                    if (StringHelper.TryParseToDouble(innerHtml, out var value))
                     {
                         result.Add(value);
                     }

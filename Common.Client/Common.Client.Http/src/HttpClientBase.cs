@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Net.Http;
-using Jopalesha.Common.Infrastructure.Helpers;
+using Jopalesha.CheckWhenDoIt;
 
 namespace Jopalesha.Common.Client.Http
 {

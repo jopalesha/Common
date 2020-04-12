@@ -1,5 +1,5 @@
 ﻿using System.Net;
-using Jopalesha.Common.Infrastructure.Helpers;
+using Jopalesha.CheckWhenDoIt;
 
 namespace Jopalesha.Common.Client.Http
 {
@@ -10,8 +10,8 @@ namespace Jopalesha.Common.Client.Http
 
         public ProxyCreatorWithCredentials(string address, string userName, string password) : base(address)
         {
-            _userName = Check.NotNullOrEmpty(userName);
-            _password = Check.NotNullOrEmpty(password);
+            _userName = Check.NotEmpty(userName);
+            _password = Check.NotEmpty(password);
         }
 
         public override WebProxy Create()

@@ -5,11 +5,15 @@
     <AssemblyName>Jopalesha.Common.Infrastructure</AssemblyName>
     <LangVersion>latest</LangVersion>
     <RootNamespace>Jopalesha.Common.Infrastructure</RootNamespace>
-    <Version>1.0.13</Version>
-    <AssemblyVersion>1.0.13.0</AssemblyVersion>
-    <FileVersion>1.0.13.0</FileVersion>
+    <Version>1.0.15</Version>
+    <AssemblyVersion>1.0.14.0</AssemblyVersion>
+    <FileVersion>1.0.14.0</FileVersion>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <Nullable>enable</Nullable>
   </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="CheckWhenDoIt" Version="1.0.1" />
+  </ItemGroup>
 
 </Project>

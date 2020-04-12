@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using Jopalesha.Common.Infrastructure.Helpers;
+using Jopalesha.CheckWhenDoIt;
 // ReSharper disable AutoPropertyCanBeMadeGetOnly.Local
 // ReSharper disable NonReadonlyMemberInGetHashCode
 

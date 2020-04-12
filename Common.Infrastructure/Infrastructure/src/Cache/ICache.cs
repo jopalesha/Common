@@ -9,9 +9,9 @@ namespace Jopalesha.Common.Infrastructure.Cache
         /// <summary>
         /// Add value to cache
         /// </summary>
-        /// <typeparam name="T">Value Type</typeparam>
+        /// <typeparam name="T">IsTrue Type</typeparam>
         /// <param name="key">Key</param>
-        /// <param name="value">Value</param>
+        /// <param name="value">IsTrue</param>
         /// <param name="token">Cancellation token</param>
         Task Add<T>(string key, T value, CancellationToken token = default);
 
@@ -25,19 +25,19 @@ namespace Jopalesha.Common.Infrastructure.Cache
         /// <summary>
         /// Get value by key
         /// </summary>
-        /// <typeparam name="T">Value type</typeparam>
+        /// <typeparam name="T">IsTrue type</typeparam>
         /// <param name="key">Key</param>
         /// <param name="token">Cancellation token</param>
-        /// <returns>Value if exists. Throws <see cref="CacheItemNotFoundException"/> if not exists</returns>
+        /// <returns>IsTrue if exists. Throws <see cref="CacheItemNotFoundException"/> if not exists</returns>
         Task<T> Get<T>(string key, CancellationToken token = default);
 
         /// <summary>
         /// Find value by key
         /// </summary>
-        /// <typeparam name="T">Value Type</typeparam>
+        /// <typeparam name="T">IsTrue Type</typeparam>
         /// <param name="key">Key</param>
         /// <param name="token">Token</param>
-        /// <returns>Value if exists. Null if not exists</returns>
+        /// <returns>IsTrue if exists. Null if not exists</returns>
         Task<T> Find<T>(string key, CancellationToken token = default);
 
         /// <summary>

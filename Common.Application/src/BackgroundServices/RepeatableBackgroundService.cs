@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Threading;
 using System.Threading.Tasks;
-using Jopalesha.Common.Infrastructure.Helpers;
+using Jopalesha.CheckWhenDoIt;
 using Jopalesha.Common.Infrastructure.Logging;
 
 namespace Jopalesha.Common.Application.BackgroundServices
