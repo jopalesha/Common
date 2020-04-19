@@ -5,7 +5,7 @@
     <AssemblyName>Jopalesha.Common.Tests</AssemblyName>
     <LangVersion>latest</LangVersion>
     <RootNamespace>Jopalesha.Common.Tests</RootNamespace>
-    <Version>1.0.8</Version>
+    <Version>1.0.9</Version>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
   </PropertyGroup>
 

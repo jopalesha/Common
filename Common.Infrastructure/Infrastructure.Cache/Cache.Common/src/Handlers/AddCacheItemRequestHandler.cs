@@ -1,7 +1,7 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
+using Jopalesha.CheckWhenDoIt;
 using Jopalesha.Common.Application.AsyncQueue;
-using Jopalesha.Common.Infrastructure.Helpers;
 
 namespace Jopalesha.Common.Infrastructure.Cache.Common.Handlers
 {
@@ -9,7 +9,7 @@ namespace Jopalesha.Common.Infrastructure.Cache.Common.Handlers
     {
         public AddCacheItemRequest(string key, object value)
         {
-            Key = Check.NotNullOrEmpty(key);
+            Key = Check.NotEmpty(key);
             Value = value;
         }
 

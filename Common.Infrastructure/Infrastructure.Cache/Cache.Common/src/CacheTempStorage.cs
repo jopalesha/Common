@@ -2,7 +2,7 @@
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
-using Jopalesha.Common.Infrastructure.Extensions;
+using Jopalesha.Helpers.Extensions;
 
 namespace Jopalesha.Common.Infrastructure.Cache.Common
 {
