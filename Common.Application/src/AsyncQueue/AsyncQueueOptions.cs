@@ -11,8 +11,8 @@ namespace Jopalesha.Common.Application.AsyncQueue
 
         public AsyncQueueOptions(int consumersCount, TimeSpan interval)
         {
-            ConsumersCount = Check.IsTrue(consumersCount, it => it > 0 && it < 10);
-            Interval = Check.IsTrue(interval, it => it.TotalSeconds >= 1);
+            ConsumersCount = Check.True(consumersCount, it => it > 0 && it < 10);
+            Interval = Check.True(interval, it => it.TotalSeconds >= 1);
         }
 
         public int ConsumersCount { get; }

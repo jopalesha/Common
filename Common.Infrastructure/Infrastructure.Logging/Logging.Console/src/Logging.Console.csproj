@@ -4,11 +4,11 @@
     <TargetFramework>netstandard2.1</TargetFramework>
     <AssemblyName>Jopalesha.Common.Infrastructure.Logging.Console</AssemblyName>
     <RootNamespace>Jopalesha.Common.Infrastructure.Logging.Console</RootNamespace>
-    <Version>1.0.3</Version>
+    <Version>1.0.4</Version>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Jopalesha.Common.Infrastructure" Version="1.0.15" />
+    <PackageReference Include="Jopalesha.Common.Infrastructure" Version="1.0.16" />
   </ItemGroup>
 
 </Project>

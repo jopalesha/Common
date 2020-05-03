@@ -12,7 +12,7 @@ namespace Jopalesha.Common.Client.Http
         public HttpClientOptions(Uri url, TimeSpan timeOut, bool useProxy)
         {
             Url = Check.NotNull(url, nameof(url));
-            TimeOut = Check.IsTrue(timeOut, it => it.TotalSeconds > 0, nameof(timeOut));
+            TimeOut = Check.True(timeOut, it => it.TotalSeconds > 0, nameof(timeOut));
             UseProxy = useProxy;
         }
 

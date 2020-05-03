@@ -33,13 +33,13 @@ namespace Jopalesha.Common.Domain.Models
 
         public Query<TEntity> Skip(int count)
         {
-            Offset = Check.IsTrue(count, It.IsPositive.Integer);
+            Offset = Check.True(count, It.IsPositive.Integer);
             return this;
         }
 
         public Query<TEntity> Take(int count)
         {
-            Count = Check.IsTrue(count, It.IsPositive.Integer);
+            Count = Check.True(count, It.IsPositive.Integer);
             return this;
         }
     }

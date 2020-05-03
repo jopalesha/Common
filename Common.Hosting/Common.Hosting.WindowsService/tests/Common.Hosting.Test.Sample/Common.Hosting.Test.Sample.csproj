@@ -9,7 +9,7 @@
 
   <ItemGroup>
     <FrameworkReference Include="Microsoft.AspNetCore.App" />
-    <PackageReference Include="Jopalesha.Common.Infrastructure.Logging.Console" Version="1.0.3" />
+    <PackageReference Include="Jopalesha.Common.Infrastructure.Logging.Console" Version="1.0.4" />
     <ProjectReference Include="..\..\src\Common.Hosting.csproj" />
   </ItemGroup>
 

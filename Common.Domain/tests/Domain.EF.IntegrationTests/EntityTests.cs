@@ -18,16 +18,31 @@ namespace Common.Domain.EF.IntegrationTests
         }
 
         [Fact]
+        public async Task Entity_WithGeneratedId_HasExpectedBehaviour() =>
+            await VerifyCreate(new TestEntity(Id<int>.Generated, "value"));
+
+        [Fact]
+        public async Task Entity_WithSetId_HasExpectedBehaviour() => await VerifyCreate(new TestEntity(22, "value"));
+
+
+        [Fact]
         public async Task Create_ReturnsExpected()
         {
-            var entity = new TestEntity("value");
-            _context.TestEntities.Add(entity);
+            var expected = new TestEntity(Id<int>.Generated, "value");
+            await _context.TestEntities.AddAsync(expected);
             await _context.SaveChangesAsync();
 
-            var id = (await _context.TestEntities.SingleAsync()).Id;
+            var actual = await _context.TestEntities.SingleAsync(it => it.Id == expected.Id);
 
-            Assert.True(id != default);
-            Assert.NotNull(await _context.TestEntities.FindAsync(id));
+            Assert.Equal(actual.Id, expected.Id);
+        }
+
+        private async Task VerifyCreate(TestEntity entity)
+        {
+            await _context.TestEntities.AddAsync(entity);
+            await _context.SaveChangesAsync();
+
+            Assert.NotNull(await _context.TestEntities.FindAsync(entity.Id));
         }
 
         private class TestContext : DbContext
@@ -52,19 +67,23 @@ namespace Common.Domain.EF.IntegrationTests
             {
                 builder.Property(it => it.Value).IsRequired();
 
-                builder.Property(c => c.Id).IsRequired()
-                    .UsePropertyAccessMode(PropertyAccessMode.Property)
-                    .ValueGeneratedOnAdd();
-
                 builder.HasKey(it => it.Id);
+                builder.Property(c => c.Id).IsRequired()
+                    .HasField("_id")
+                    .UsePropertyAccessMode(PropertyAccessMode.Field)
+                    .ValueGeneratedOnAdd();
             }
         }
 
         private class TestEntity : Entity<int>
         {
-            public TestEntity(string value) :base(Key<int>.Generated)
+            public TestEntity(Id<int> id, string value) : base(id)
             {
                 Value = value;
+            }
+
+            private TestEntity() : base(Id<int>.Generated)
+            {
             }
 
             public string Value { get; }

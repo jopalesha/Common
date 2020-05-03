@@ -4,12 +4,12 @@
     <TargetFramework>netstandard2.1</TargetFramework>
     <AssemblyName>Jopalesha.Common.Infrastructure.Configuration.Xml</AssemblyName>
     <RootNamespace>Jopalesha.Common.Infrastructure.Configuration.Xml</RootNamespace>
-    <Version>1.0.2</Version>
+    <Version>1.0.3</Version>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Jopalesha.Common.Infrastructure" Version="1.0.15" />
-    <PackageReference Include="SimpleInjector" Version="4.9.2" />
+    <PackageReference Include="Jopalesha.Common.Infrastructure" Version="1.0.16" />
+    <PackageReference Include="SimpleInjector" Version="4.10.2" />
     <PackageReference Include="System.Configuration.ConfigurationManager" Version="4.7.0" />
   </ItemGroup>
 

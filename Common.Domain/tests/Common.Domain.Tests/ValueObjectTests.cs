@@ -1,9 +1,8 @@
 using System.Collections.Generic;
 using JetBrains.Annotations;
-using Jopalesha.Common.Domain;
 using Xunit;
 
-namespace Common.Domain.Tests
+namespace Jopalesha.Common.Domain.Tests
 {
     public class ValueObjectTests
     {

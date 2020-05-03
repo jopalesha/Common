@@ -7,8 +7,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Jopalesha.Common.Application" Version="1.0.14" />
-    <PackageReference Include="Jopalesha.Helpers" Version="1.0.0" />
+    <PackageReference Include="Jopalesha.Common.Application" Version="1.0.15" />
+    <PackageReference Include="Jopalesha.Helpers" Version="1.0.1" />
   </ItemGroup>
 
 </Project>

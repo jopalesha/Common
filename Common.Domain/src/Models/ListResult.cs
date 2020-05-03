@@ -9,7 +9,7 @@ namespace Jopalesha.Common.Domain.Models
         public ListResult(IEnumerable<T> items, int totalCount)
         {
             Items = Check.NotNull(items, nameof(items)).ToList();
-            TotalCount = Check.IsTrue(totalCount, It.IsPositive.Integer, nameof(totalCount));
+            TotalCount = Check.True(totalCount, It.IsNatural, nameof(totalCount));
         }
 
         public IReadOnlyList<T> Items { get; }

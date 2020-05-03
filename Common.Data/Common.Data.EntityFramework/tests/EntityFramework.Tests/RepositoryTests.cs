@@ -130,6 +130,15 @@ namespace Jopalesha.Common.Data.EntityFramework.Tests
             Assert.False(_sut.Any(it => it.Value == "notFound"));
         }
 
+        [Fact]
+        public async Task GetAll_WithEmptyResult_ReturnsEmptyObject()
+        {
+            var actual = await _sut.GetAll(new Query<TestEntity>().Where(it => it.Value == "not_existed"));
+
+            Assert.Empty(actual.Items);
+            Assert.Equal(0, actual.TotalCount);
+        }
+
         private class TestContext : DbContext
         {
             public TestContext(DbContextOptions context) : base(context)

@@ -1,35 +1,36 @@
 ﻿using System.Collections.Generic;
 using Jopalesha.CheckWhenDoIt;
+
+
 // ReSharper disable AutoPropertyCanBeMadeGetOnly.Local
 // ReSharper disable NonReadonlyMemberInGetHashCode
 
 namespace Jopalesha.Common.Domain
 {
-    public abstract class Entity<TKey> : IEntity<TKey>
+    public abstract class Entity<T> : IEntity<T>
     {
-        private readonly IEqualityComparer<TKey> _comparer;
+        private readonly T _id;
 
-        protected Entity(IKey<TKey> id) : this(id, EqualityComparer<TKey>.Default)
+        protected virtual IEqualityComparer<T> Comparer => EqualityComparer<T>.Default;
+
+        protected Entity(Id<T> id) : this()
         {
+            if (!(Check.NotNull(id) is GeneratedId<T>))
+            {
+                _id = id.Value;
+            }
         }
 
-        protected Entity(IKey<TKey> id, IEqualityComparer<TKey> comparer) : this()
-        {
-            Id = Check.NotNull(id).Value;
-            _comparer = Check.NotNull(comparer, nameof(comparer));
-        }
-        
         private Entity() { }
 
-
-        public TKey Id { get; private set; }
+        public T Id => Check.NotDefault(_id);
 
 
         #region Equality
 
         public sealed override bool Equals(object obj)
         {
-            if (obj is Entity<TKey> entity)
+            if (obj is Entity<T> entity)
             {
                 return Equals(entity);
             }
@@ -37,16 +38,16 @@ namespace Jopalesha.Common.Domain
             return false;
         }
 
-        public sealed override int GetHashCode() => _comparer.GetHashCode(Id);
+        public sealed override int GetHashCode() => Comparer.GetHashCode(Id);
 
-        public virtual bool Equals(Entity<TKey> other)
+        public virtual bool Equals(Entity<T> other)
         {
-            return other != null && _comparer.Equals(Id, other.Id);
+            return other != null && Comparer.Equals(Id, other.Id);
         }
 
-        public static bool operator ==(Entity<TKey> left, Entity<TKey> right) => Equals(left, right);
+        public static bool operator ==(Entity<T> left, Entity<T> right) => Equals(left, right);
 
-        public static bool operator !=(Entity<TKey> left, Entity<TKey> right) => !(left == right);
+        public static bool operator !=(Entity<T> left, Entity<T> right) => !(left == right);
 
         #endregion
     }

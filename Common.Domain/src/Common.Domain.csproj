@@ -5,14 +5,14 @@
     <AssemblyName>Jopalesha.Common.Domain</AssemblyName>
     <RootNamespace>Jopalesha.Common.Domain</RootNamespace>
     <LangVersion>latest</LangVersion>
-    <AssemblyVersion>1.0.7.0</AssemblyVersion>
-    <FileVersion>1.0.7.0</FileVersion>
-    <Version>1.0.7.0</Version>
+    <AssemblyVersion>1.0.9.0</AssemblyVersion>
+    <FileVersion>1.0.9.0</FileVersion>
+    <Version>1.0.9.0</Version>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="CheckWhenDoIt" Version="1.0.1" />
-    <PackageReference Include="Jopalesha.Helpers" Version="1.0.0" />
+    <PackageReference Include="CheckWhenDoIt" Version="1.0.2" />
+    <PackageReference Include="Jopalesha.Helpers" Version="1.0.1" />
   </ItemGroup>
 
 </Project>

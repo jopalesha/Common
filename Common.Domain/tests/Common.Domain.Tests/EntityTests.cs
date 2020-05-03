@@ -1,9 +1,9 @@
 ﻿using System;
+using System.Collections.Generic;
 using JetBrains.Annotations;
-using Jopalesha.Common.Domain;
 using Xunit;
 
-namespace Common.Domain.Tests
+namespace Jopalesha.Common.Domain.Tests
 {
     public class EntityTests
     {
@@ -25,6 +25,24 @@ namespace Common.Domain.Tests
             Verify(entity1, entity2, true);
         }
 
+        [Fact]
+        public void GetId_WithGeneratedId_ThrowsArgumentException()
+        {
+            Assert.Throws<ArgumentException>(() => new TestEntity().Id);
+        }
+
+        [Fact]
+        public void Create_WithDefaultId_ThrowsArgumentException()
+        {
+            Assert.Throws<ArgumentNullException>(() => new TestEntity(null));
+        }
+
+        [Fact]
+        public void Equals_WithGenerateId_ThrowsArgumentException()
+        {
+            Assert.Throws<ArgumentException>(() => Equals(new TestEntity(), new TestEntity()));
+        }
+
         [AssertionMethod]
         private static void Verify(TestEntity value1, TestEntity value2, bool isEqual)
         {
@@ -35,9 +53,15 @@ namespace Common.Domain.Tests
 
         private class TestEntity : Entity<string>
         {
-            public TestEntity(string id) : base(new Key<string>(id), StringComparer.OrdinalIgnoreCase)
+            public TestEntity() : this(Id<string>.Generated)
             {
             }
+
+            public TestEntity(Id<string> id) : base(id)
+            {
+            }
+
+            protected override IEqualityComparer<string> Comparer => StringComparer.OrdinalIgnoreCase;
         }
     }
 }
