@@ -6,7 +6,7 @@ namespace Jopalesha.Common.Client.Http.Extensions
     {
         public static HttpMessageHandler GetMostInnerHandler(this HttpMessageHandler self)
         {
-            return !(self is DelegatingHandler delegatingHandler)
+            return self is not DelegatingHandler delegatingHandler
                 ? self
                 : delegatingHandler.InnerHandler.GetMostInnerHandler();
         }

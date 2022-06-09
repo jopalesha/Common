@@ -1,23 +1,33 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Threading;
 using System.Threading.Tasks;
 using Jopalesha.Common.Domain;
+using Jopalesha.Common.Domain.Exceptions;
 using Jopalesha.Common.Domain.Models;
 using Jopalesha.Common.Domain.Repositories;
 using Microsoft.EntityFrameworkCore;
 
 namespace Jopalesha.Common.Data.EntityFramework
 {
-    public abstract class Repository<TEntity, TKey> : IRepository<TEntity, TKey> 
-        where TEntity : class, IHasId<TKey>
+    /// <summary>
+    /// Base repository class.
+    /// </summary>
+    /// <typeparam name="TEntity">Entity type.</typeparam>
+    /// <typeparam name="TKey">Entity key type.</typeparam>
+    public abstract class Repository<TEntity, TKey> : IRepository<TEntity, TKey>
+        where TEntity : class, IEntity<TKey>
     {
         protected readonly DbContext _context;
         protected readonly DbSet<TEntity> _set;
         protected readonly IQueryable<TEntity> _query;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Repository{TEntity, TKey}"/> class.
+        /// </summary>
+        /// <param name="context">Data context.</param>
         protected Repository(DbContext context)
         {
             _context = context;
@@ -25,78 +35,52 @@ namespace Jopalesha.Common.Data.EntityFramework
             _query = AddIncludes(_set.AsQueryable());
         }
 
-        public async Task<TEntity> Get(TKey id, CancellationToken token)
+        /// <inheritdoc />
+        public async Task<TEntity> Get(TKey id, CancellationToken token) =>
+            FindOrThrow(await _query.SingleOrDefaultAsync(it => it.Id.Equals(id), token), id);
+
+        /// <inheritdoc />
+        public TEntity Get(TKey id) => FindOrThrow(_query.SingleOrDefault(it => it.Id.Equals(id)), id);
+
+        /// <inheritdoc />
+        public virtual TEntity Add(TEntity entity) => _set.Add(entity).Entity;
+
+        /// <inheritdoc />
+        public virtual async Task<TEntity> AddAsync(TEntity entity, CancellationToken token) => (await _set.AddAsync(entity, token)).Entity;
+
+        public virtual void AddRange(IEnumerable<TEntity> entities) => _set.AddRange(entities);
+
+        /// <inheritdoc />
+        public async Task<ListResult<TEntity>> GetAll(Action<IQueryable<TEntity>> formQuery, CancellationToken token)
         {
-            return FindOrThrow(await _query.SingleOrDefaultAsync(it => it.Id.Equals(id), token), id);
+            var query = _set.AsQueryable().AsNoTracking();
+            formQuery(query);
+            var count = await query.CountAsync(token);
+            var items = await query.ToListAsync(token);
+
+            return new ListResult<TEntity>(items, count);
         }
 
-        public TEntity Get(TKey id)
-        {
-            return FindOrThrow(_query.SingleOrDefault(it => it.Id.Equals(id)), id);
-        }
+        /// <inheritdoc />
+        public async Task<bool> ExistsAsync(TKey key, CancellationToken token) => await AnyAsync(it => it.Id.Equals(key), token);
 
-        public virtual TEntity Add(TEntity entity)
-        {
-            return _set.Add(entity).Entity;
-        }
+        /// <inheritdoc />
+        public bool Exists(TKey key) => Any(it => it.Id.Equals(key));
 
-        public virtual async Task<TEntity> AddAsync(TEntity entity, CancellationToken token)
-        {
-            return (await _set.AddAsync(entity, token)).Entity;
-        }
+        /// <inheritdoc />
+        public async Task<bool> AnyAsync(Expression<Func<TEntity, bool>> predicate, CancellationToken token) =>
+            await _set.AnyAsync(predicate, token);
 
-        public virtual void AddRange(IEnumerable<TEntity> entities)
-        {
-            _set.AddRange(entities);
-        }
+        /// <inheritdoc />
+        public bool Any(Expression<Func<TEntity, bool>> predicate) => _set.Any(predicate);
 
-        public virtual TEntity SingleOrDefault(Expression<Func<TEntity, bool>> predicate)
-        {
-            return _query.SingleOrDefault(predicate);
-        }
+        /// <inheritdoc />
+        public IEnumerable<TEntity> GetAll() => _query.ToList();
 
-        public IEnumerable<TEntity> Where(Expression<Func<TEntity, bool>> predicate, int? takeCount = null)
-        {
-            var query = _query.Where(predicate);
+        /// <inheritdoc />
+        public async Task<IEnumerable<TEntity>> GetAllAsync(CancellationToken token) => await _query.ToListAsync(token);
 
-            if (takeCount.HasValue)
-            {
-                query = query.Take(takeCount.Value);
-            }
-
-            return query.ToList();
-        }
-
-        public async Task<bool> ExistsAsync(TKey key, CancellationToken token)
-        {
-            return await AnyAsync(it => it.Id.Equals(key), token);
-        }
-
-        public bool Exists(TKey key)
-        {
-            return Any(it => it.Id.Equals(key));
-        }
-
-        public async Task<bool> AnyAsync(Expression<Func<TEntity, bool>> predicate, CancellationToken token)
-        {
-            return await _set.AnyAsync(predicate, token);
-        }
-
-        public bool Any(Expression<Func<TEntity, bool>> predicate)
-        {
-            return _set.Any(predicate);
-        }
-
-        public IEnumerable<TEntity> GetAll()
-        {
-            return _query.ToList();
-        }
-
-        public async Task<IEnumerable<TEntity>> GetAllAsync(CancellationToken token)
-        {
-            return await _query.ToListAsync(token);
-        }
-
+        /// <inheritdoc />
         public async Task Remove(TKey key, CancellationToken token)
         {
             var item = await _set.FindAsync(new object[] {key}, token);
@@ -106,37 +90,26 @@ namespace Jopalesha.Common.Data.EntityFramework
             }
         }
 
-        public async Task<ListResult<TEntity>> GetAll(Query<TEntity> query, CancellationToken token)
+        public async Task<TEntity> FindAsync(TKey id, CancellationToken token) =>
+            await _set.FindAsync(new[] { id }, token);
+
+        private static TEntity FindOrThrow(TKey id)
         {
-            var queryable = FormQueryable(query);
-            var count = await queryable.CountAsync(token);
+            var entity=Find(id)
 
-            if (query.Count != 0)
-            {
-                queryable = queryable.Take(query.Count);
-            }
-
-            var items = await queryable.ToListAsync(token);
-
-            return new ListResult<TEntity>(items, count);
-        }
-
-        protected async Task<TEntity> FindAsync(object id, CancellationToken token)
-        {
-            return await _set.FindAsync(new[] {id}, token);
-        }
-
-        private static TEntity FindOrThrow(TEntity entity, TKey id)
-        {
             if (entity == null)
             {
                 // TODO CREATE REPOSITORY EXCEPTION
-                throw new ArgumentException($"There is no item for type {typeof(TEntity)} with {id}");
+                throw new EntityNotFoundException<TEntity,TKey>(id);
             }
 
             return entity;
         }
 
+        /// <summary>
+        /// Get expression with properties, which should be included to query.
+        /// </summary>
+        /// <returns>Expression with included properties.</returns>
         protected virtual Expression<Func<TEntity, object>>[] GetIncludes() => Array.Empty<Expression<Func<TEntity, object>>>();
 
         private IQueryable<TEntity> AddIncludes(IQueryable<TEntity> set)

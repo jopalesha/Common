@@ -7,7 +7,7 @@ namespace Jopalesha.Common.Domain.Tests
     public class ValueObjectTests
     {
         [Fact]
-        public void DifferentValueObjects_NotEquals()
+        public void Equals_ForDifferentObjects_ReturnsFalse()
         {
             var value1 = new TestValueObject(1);
             var value2 = new TestValueObject(2);
@@ -16,7 +16,7 @@ namespace Jopalesha.Common.Domain.Tests
         }
 
         [Fact]
-        public void SameValueObject_Equals()
+        public void Equals_ForSameValueObject_ReturnsTrue()
         {
             var value1 = new TestValueObject(1);
             var value2 = new TestValueObject(1);
@@ -25,10 +25,19 @@ namespace Jopalesha.Common.Domain.Tests
         }
 
         [Fact]
-        public void SameStringValueObject_Equals()
+        public void Equals_ForSameStringValueObjects_ReturnsTrue()
         {
             var value1 = new StringValueObject("value");
             var value2 = new StringValueObject("Value");
+
+            Verify(value1, value2, true);
+        }
+
+        [Fact]
+        public void Equals_ForComplexObjects_ReturnsTrue()
+        {
+            var value1 = new ComplexObject(new StringValueObject("value"));
+            var value2 = new ComplexObject(new StringValueObject("value"));
 
             Verify(value1, value2, true);
         }
@@ -68,6 +77,21 @@ namespace Jopalesha.Common.Domain.Tests
             protected override IEnumerable<object> GetEqualityMembers()
             {
                 yield return Value.ToLower();
+            }
+        }
+
+        private class ComplexObject : ValueObject
+        {
+            private readonly StringValueObject _valueObject;
+
+            public ComplexObject(StringValueObject valueObject)
+            {
+                _valueObject = valueObject;
+            }
+
+            protected override IEnumerable<object> GetEqualityMembers()
+            {
+                yield return _valueObject;
             }
         }
     }

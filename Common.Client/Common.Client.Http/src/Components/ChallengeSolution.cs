@@ -2,9 +2,13 @@
 
 namespace Jopalesha.Common.Client.Http.Components
 {
-    internal struct ChallengeSolution : IEquatable<ChallengeSolution>
+    internal readonly struct ChallengeSolution : IEquatable<ChallengeSolution>
     {
-        public ChallengeSolution(string clearancePage, string verificationCode, string pass, int answer)
+        public ChallengeSolution(
+            string clearancePage,
+            string verificationCode,
+            string pass, 
+            int answer)
         {
             ClearancePage = clearancePage;
             VerificationCode = verificationCode;
@@ -35,8 +39,7 @@ namespace Jopalesha.Common.Client.Http.Components
 
         public override bool Equals(object obj)
         {
-            var nullable = obj as ChallengeSolution?;
-            return nullable.HasValue && Equals(nullable.Value);
+            return obj is ChallengeSolution nullable && Equals(nullable);
         }
 
         public override int GetHashCode()

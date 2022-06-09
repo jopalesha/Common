@@ -1,0 +1,14 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.1</TargetFramework>
+    <AssemblyName>Jopalesha.Common.Infrastructure.Serializer.Json</AssemblyName>
+    <RootNamespace>Jopalesha.Common.Infrastructure.Serializer.Json</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Jopalesha.Common.Infrastructure" Version="1.0.17" />
+    <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
+  </ItemGroup>
+
+</Project>

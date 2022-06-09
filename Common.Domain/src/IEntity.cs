@@ -1,8 +1,12 @@
-﻿using System;
+using System;
 
 namespace Jopalesha.Common.Domain
 {
-    public interface IEntity<TKey> : IEquatable<Entity<TKey>>, IHasId<TKey>
+    /// <summary>
+    /// Entity.
+    /// </summary>
+    /// <typeparam name="TKey">Id type.</typeparam>
+    public interface IEntity<TKey> : IEquatable<IEntity<TKey>>, IHasId<TKey>
     {
     }
 }

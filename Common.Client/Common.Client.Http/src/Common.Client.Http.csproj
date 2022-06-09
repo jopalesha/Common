@@ -8,6 +8,8 @@
     <AssemblyVersion>1.0.6.0</AssemblyVersion>
     <FileVersion>1.0.6.0</FileVersion>
     <Version>1.0.6</Version>
+    <GenerateDocumentationFile>True</GenerateDocumentationFile>
+    <CodeAnalysisRuleSet>..\..\..\standart.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
 
   <ItemGroup>
@@ -17,6 +19,10 @@
     <PackageReference Include="Jopalesha.Helpers" Version="1.0.1" />
     <PackageReference Include="Microsoft.AspNet.WebApi.Client" Version="5.2.7" />
     <PackageReference Include="SimpleInjector" Version="4.10.2" />
+    <PackageReference Include="StyleCop.Analyzers" Version="1.2.0-beta.435">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
   </ItemGroup>
 
 </Project>

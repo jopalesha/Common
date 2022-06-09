@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using JetBrains.Annotations;
 using Xunit;
@@ -26,22 +26,15 @@ namespace Jopalesha.Common.Domain.Tests
         }
 
         [Fact]
-        public void GetId_WithGeneratedId_ThrowsArgumentException()
-        {
-            Assert.Throws<ArgumentException>(() => new TestEntity().Id);
-        }
+        public void GetId_WithGeneratedId_ThrowsArgumentException() => Assert.Throws<ArgumentException>(() => new TestEntity().Id);
 
         [Fact]
-        public void Create_WithDefaultId_ThrowsArgumentException()
-        {
+        public void Create_WithDefaultId_ThrowsArgumentException() =>
             Assert.Throws<ArgumentNullException>(() => new TestEntity(null));
-        }
 
         [Fact]
-        public void Equals_WithGenerateId_ThrowsArgumentException()
-        {
+        public void Equals_WithGenerateId_ThrowsArgumentException() =>
             Assert.Throws<ArgumentException>(() => Equals(new TestEntity(), new TestEntity()));
-        }
 
         [AssertionMethod]
         private static void Verify(TestEntity value1, TestEntity value2, bool isEqual)

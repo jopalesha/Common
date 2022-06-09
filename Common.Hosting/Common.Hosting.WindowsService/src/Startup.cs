@@ -70,8 +70,6 @@ namespace Jopalesha.Common.Hosting
                 }
             });
 
-
-
             services.AddHttpContextAccessor();
             services.UseSimpleInjectorAspNetRequestScoping(Container);
 

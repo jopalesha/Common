@@ -74,6 +74,16 @@
       "fileName": "cmd.exe",
       "workingDirectory": ".",
       "arguments": "/c Common.Infrastructure\\Infrastructure.Logging\\Logging.Console\\Logging.Console.bat"
+    },
+    "Serializer.Json": {
+      "fileName": "cmd.exe",
+      "workingDirectory": ".",
+      "arguments": "/c Common.Infrastructure\\Infrastructure.Serializer\\src\\Serializer.Json\\Serializer.Json.bat"
+    },
+    "Common.Domain 200210936": {
+      "fileName": "cmd.exe",
+      "workingDirectory": ".",
+      "arguments": "/c Common.Domain\\Common.Domain.bat"
     }
   }
 }

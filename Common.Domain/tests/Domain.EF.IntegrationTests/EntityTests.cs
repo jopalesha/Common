@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Threading.Tasks;
 using Jopalesha.Common.Domain;
 using Microsoft.EntityFrameworkCore;
@@ -23,7 +23,7 @@ namespace Common.Domain.EF.IntegrationTests
 
         [Fact]
         public async Task Entity_WithSetId_HasExpectedBehaviour() => await VerifyCreate(new TestEntity(22, "value"));
-
+=
 
         [Fact]
         public async Task Create_ReturnsExpected()
@@ -80,10 +80,6 @@ namespace Common.Domain.EF.IntegrationTests
             public TestEntity(Id<int> id, string value) : base(id)
             {
                 Value = value;
-            }
-
-            private TestEntity() : base(Id<int>.Generated)
-            {
             }
 
             public string Value { get; }

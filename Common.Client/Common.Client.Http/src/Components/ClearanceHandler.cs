@@ -5,24 +5,35 @@ using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Threading;
 using System.Threading.Tasks;
-using Jopalesha.Common.Client.Http.Components;
+using Jopalesha.CheckWhenDoIt;
 using Jopalesha.Common.Client.Http.Extensions;
 
-namespace Jopalesha.Common.Client.Http
+namespace Jopalesha.Common.Client.Http.Components
 {
+    /// <summary>
+    /// Cloudflare Web Application Firewall (WAF) client handler.
+    /// </summary>
     public class ClearanceHandler : DelegatingHandler
     {
-        private readonly CookieContainer _cookies = new CookieContainer();
+        private readonly CookieContainer _cookies = new();
         private const string CloudFlareServerName = "cloudflare-nginx";
         private const string IdCookieName = "__cfduid";
         private const string ClearanceCookieName = "cf_clearance";
         private readonly HttpClient _client;
 
-        public ClearanceHandler(IWebProxy proxy = null)
+        /// <summary>
+        /// Constructor with.
+        /// </summary>
+        /// <param name="proxy"></param>
+        public ClearanceHandler(IWebProxy proxy)
             : this(new HttpClientHandler(), proxy)
         {
         }
 
+        /// <summary>
+        /// Constructor with inner handler.
+        /// </summary>
+        /// <param name="innerHandler"></param>
         public ClearanceHandler(HttpMessageHandler innerHandler) : base(innerHandler)
         {
             var httpClientHandler = new HttpClientHandler
@@ -44,7 +55,12 @@ namespace Jopalesha.Common.Client.Http
             };
         }
 
-        public ClearanceHandler(HttpMessageHandler innerHandler, IWebProxy proxy = null)
+        /// <summary>
+        /// Constructor with handler.
+        /// </summary>
+        /// <param name="innerHandler">Inner handler.</param>
+        /// <param name="proxy"></param>
+        public ClearanceHandler(HttpMessageHandler innerHandler, IWebProxy proxy)
             : base(innerHandler)
         {
             var httpClientHandler = new HttpClientHandler
@@ -52,13 +68,9 @@ namespace Jopalesha.Common.Client.Http
                 AllowAutoRedirect = false,
                 UseCookies = true,
                 CookieContainer = _cookies,
+                Proxy = Check.NotNull(proxy),
+                UseProxy = true
             };
-
-            if (proxy != null)
-            {
-                httpClientHandler.Proxy = proxy;
-                httpClientHandler.UseProxy = true;
-            }
 
             _client = new HttpClient(httpClientHandler)
             {
@@ -68,6 +80,7 @@ namespace Jopalesha.Common.Client.Http
 
         private HttpClientHandler ClientHandler => InnerHandler.GetMostInnerHandler() as HttpClientHandler;
 
+        /// <inheritdoc />
         protected override void Dispose(bool disposing)
         {
             if (disposing)
@@ -78,6 +91,7 @@ namespace Jopalesha.Common.Client.Http
             base.Dispose(disposing);
         }
 
+        /// <inheritdoc />
         protected override async Task<HttpResponseMessage> SendAsync(
             HttpRequestMessage request,
             CancellationToken cancellationToken)

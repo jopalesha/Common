@@ -4,53 +4,56 @@ using System.Threading.Tasks;
 
 namespace Jopalesha.Common.Infrastructure.Cache
 {
+    /// <summary>
+    /// Cache.
+    /// </summary>
     public interface ICache
     {
         /// <summary>
-        /// Add value to cache
+        /// Add value to cache.
         /// </summary>
-        /// <typeparam name="T">IsTrue Type</typeparam>
-        /// <param name="key">Key</param>
-        /// <param name="value">IsTrue</param>
-        /// <param name="token">Cancellation token</param>
+        /// <typeparam name="T">Value Type.</typeparam>
+        /// <param name="key">Key.</param>
+        /// <param name="value">Value.</param>
+        /// <param name="token">Cancellation token.</param>
         Task Add<T>(string key, T value, CancellationToken token = default);
 
         /// <summary>
-        /// Add list of items to cache
+        /// Add list of items to cache.
         /// </summary>
-        /// <param name="items">Dictionary of items</param>
-        /// <param name="token">Cancellation Token</param>
+        /// <param name="items">Collection of key/value pairs.</param>
+        /// <param name="token">Cancellation Token.</param>
         Task AddRange(IDictionary<string, object> items, CancellationToken token = default);
 
         /// <summary>
-        /// Get value by key
+        /// Get value by key.
         /// </summary>
-        /// <typeparam name="T">IsTrue type</typeparam>
-        /// <param name="key">Key</param>
-        /// <param name="token">Cancellation token</param>
-        /// <returns>IsTrue if exists. Throws <see cref="CacheItemNotFoundException"/> if not exists</returns>
+        /// <typeparam name="T">Value type.</typeparam>
+        /// <param name="key">Key.</param>
+        /// <param name="token">Cancellation token.</param>
+        /// <returns>Returns value if exists. Throws <see cref="CacheItemNotFoundException"/> if not exists.</returns>
         Task<T> Get<T>(string key, CancellationToken token = default);
 
         /// <summary>
-        /// Find value by key
+        /// Find value by key.
         /// </summary>
-        /// <typeparam name="T">IsTrue Type</typeparam>
-        /// <param name="key">Key</param>
-        /// <param name="token">Token</param>
-        /// <returns>IsTrue if exists. Null if not exists</returns>
+        /// <typeparam name="T">Value Type.</typeparam>
+        /// <param name="key">Key.</param>
+        /// <param name="token">Cancellation token.</param>
+        /// <returns>Returns value if exists. Null if not exists.</returns>
         Task<T> Find<T>(string key, CancellationToken token = default);
 
         /// <summary>
-        /// Delete value by key
+        /// Delete value by key.
         /// </summary>
-        /// <param name="key">Key</param>
-        /// <param name="token">Cancellation token</param>
+        /// <param name="key">Key.</param>
+        /// <param name="token">Cancellation token.</param>
         Task Delete(string key, CancellationToken token = default);
 
         /// <summary>
-        /// Delete all cache items
+        /// Delete all cache items.
         /// </summary>
-        /// <param name="token">Cancellation token</param>
+        /// <param name="token">Cancellation token.</param>
         Task Clear(CancellationToken token = default);
     }
 }

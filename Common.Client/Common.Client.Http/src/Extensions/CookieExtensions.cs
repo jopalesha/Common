@@ -1,10 +1,13 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 
 namespace Jopalesha.Common.Client.Http.Extensions
 {
+    /// <summary>
+    /// <see cref="Cookie"/> extensions.
+    /// </summary>
     internal static class CookieExtensions
     {
         public static string ToHeaderValue(this Cookie cookie)
