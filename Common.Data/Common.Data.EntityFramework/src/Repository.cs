@@ -8,6 +8,7 @@ using Jopalesha.Common.Domain;
 using Jopalesha.Common.Domain.Exceptions;
 using Jopalesha.Common.Domain.Models;
 using Jopalesha.Common.Domain.Repositories;
+using Jopalesha.Helpers.Extensions;
 using Microsoft.EntityFrameworkCore;
 
 namespace Jopalesha.Common.Data.EntityFramework
@@ -20,41 +21,79 @@ namespace Jopalesha.Common.Data.EntityFramework
     public abstract class Repository<TEntity, TKey> : IRepository<TEntity, TKey>
         where TEntity : class, IEntity<TKey>
     {
-        protected readonly DbContext _context;
-        protected readonly DbSet<TEntity> _set;
-        protected readonly IQueryable<TEntity> _query;
-
         /// <summary>
         /// Initializes a new instance of the <see cref="Repository{TEntity, TKey}"/> class.
         /// </summary>
         /// <param name="context">Data context.</param>
         protected Repository(DbContext context)
         {
-            _context = context;
-            _set = context.Set<TEntity>();
-            _query = AddIncludes(_set.AsQueryable());
+            Context = context;
+            Set = context.Set<TEntity>();
+            Query = AddIncludes(Set.AsQueryable());
         }
 
-        /// <inheritdoc />
-        public async Task<TEntity> Get(TKey id, CancellationToken token) =>
-            FindOrThrow(await _query.SingleOrDefaultAsync(it => it.Id.Equals(id), token), id);
+        /// <summary>
+        /// Gets context.
+        /// </summary>
+        protected DbContext Context { get; }
+
+        /// <summary>
+        /// Gets data set.
+        /// </summary>
+        protected DbSet<TEntity> Set { get; }
+
+        /// <summary>
+        /// Gets query.
+        /// </summary>
+        protected IQueryable<TEntity> Query { get; }
+
+        /// <summary>
+        /// Gets expression with properties, which should be included to query.
+        /// </summary>
+        /// <returns>Expression with included properties.</returns>
+        protected virtual Expression<Func<TEntity, object>>[] Includes => Array.Empty<Expression<Func<TEntity, object>>>();
 
         /// <inheritdoc />
-        public TEntity Get(TKey id) => FindOrThrow(_query.SingleOrDefault(it => it.Id.Equals(id)), id);
+        public async Task<TEntity> GetAsync(TKey id, CancellationToken token) =>
+            await FindAsync(id, token) ?? throw new EntityNotFoundException<TEntity>(id);
 
         /// <inheritdoc />
-        public virtual TEntity Add(TEntity entity) => _set.Add(entity).Entity;
+        public TEntity Get(TKey id) => Find(id) ?? throw new EntityNotFoundException<TEntity>(id);
 
         /// <inheritdoc />
-        public virtual async Task<TEntity> AddAsync(TEntity entity, CancellationToken token) => (await _set.AddAsync(entity, token)).Entity;
-
-        public virtual void AddRange(IEnumerable<TEntity> entities) => _set.AddRange(entities);
+        public virtual TEntity Add(TEntity entity) => Set.Add(entity).Entity;
 
         /// <inheritdoc />
-        public async Task<ListResult<TEntity>> GetAll(Action<IQueryable<TEntity>> formQuery, CancellationToken token)
+        public virtual async Task<TEntity> AddAsync(TEntity entity, CancellationToken token) =>
+            (await Set.AddAsync(entity, token)).Entity;
+
+        /// <inheritdoc />
+        public virtual void AddRange(IEnumerable<TEntity> entities) => Set.AddRange(entities);
+
+        /// <inheritdoc />
+        public virtual async Task AddRangeAsync(IEnumerable<TEntity> entities) => await Set.AddRangeAsync(entities);
+
+        /// <inheritdoc />
+        public virtual TEntity Single(Func<TEntity, bool> predicate) =>
+            SingleOrDefault(predicate) ?? throw new EntityNotFoundException<TEntity>("There is no entity by predicate");
+
+        /// <inheritdoc />
+        public virtual async Task<TEntity> SingleAsync(Expression<Func<TEntity, bool>> predicate, CancellationToken token) =>
+            await SingleOrDefaultAsync(predicate, token) ?? throw new EntityNotFoundException<TEntity>($"There is no entity for predicate {predicate.Body}");
+
+        /// <inheritdoc />
+        public TEntity SingleOrDefault(Func<TEntity, bool> predicate) => AddIncludes(Set).SingleOrDefault(predicate);
+
+        /// <inheritdoc />
+        public async Task<TEntity> SingleOrDefaultAsync(Expression<Func<TEntity, bool>> predicate, CancellationToken token) =>
+            await AddIncludes(Set).SingleOrDefaultAsync(predicate, token);
+
+        /// <inheritdoc />
+        public async Task<ListResult<TEntity>> GetAll(
+            Func<IQueryable<TEntity>, IQueryable<TEntity>> formQuery,
+            CancellationToken token)
         {
-            var query = _set.AsQueryable().AsNoTracking();
-            formQuery(query);
+            var query = formQuery(AddIncludes(Set.AsNoTracking()));
             var count = await query.CountAsync(token);
             var items = await query.ToListAsync(token);
 
@@ -62,88 +101,65 @@ namespace Jopalesha.Common.Data.EntityFramework
         }
 
         /// <inheritdoc />
-        public async Task<bool> ExistsAsync(TKey key, CancellationToken token) => await AnyAsync(it => it.Id.Equals(key), token);
-
-        /// <inheritdoc />
         public bool Exists(TKey key) => Any(it => it.Id.Equals(key));
 
         /// <inheritdoc />
+        public async Task<bool> ExistsAsync(TKey key, CancellationToken token) =>
+            await AnyAsync(it => it.Id.Equals(key), token);
+
+
+        /// <inheritdoc />
+        public bool Any(Expression<Func<TEntity, bool>> predicate) => Set.Any(predicate);
+
+
+        /// <inheritdoc />
         public async Task<bool> AnyAsync(Expression<Func<TEntity, bool>> predicate, CancellationToken token) =>
-            await _set.AnyAsync(predicate, token);
+            await Set.AnyAsync(predicate, token);
 
         /// <inheritdoc />
-        public bool Any(Expression<Func<TEntity, bool>> predicate) => _set.Any(predicate);
+        public int Count() => Set.Count();
 
         /// <inheritdoc />
-        public IEnumerable<TEntity> GetAll() => _query.ToList();
+        public int Count(Expression<Func<TEntity, bool>> predicate) => Set.Count(predicate);
 
         /// <inheritdoc />
-        public async Task<IEnumerable<TEntity>> GetAllAsync(CancellationToken token) => await _query.ToListAsync(token);
+        public Task<int> CountAsync(CancellationToken token) => Set.CountAsync(token);
 
         /// <inheritdoc />
-        public async Task Remove(TKey key, CancellationToken token)
-        {
-            var item = await _set.FindAsync(new object[] {key}, token);
-            if (item != null)
-            {
-                _set.Remove(item);
-            }
-        }
+        public async Task<int> CountAsync(Expression<Func<TEntity, bool>> predicate, CancellationToken token) =>
+            await Set.CountAsync(predicate, token);
 
+        /// <inheritdoc />
+        public IEnumerable<TEntity> GetAll() => Query.ToList();
+
+        /// <inheritdoc />
+        public async Task<IEnumerable<TEntity>> GetAllAsync(CancellationToken token) =>
+            await Query.ToListAsync(token);
+
+        /// <inheritdoc />
+        public void Remove(TEntity entity) => Set.Remove(entity);
+
+        /// <inheritdoc />
+        public void Remove(TKey id) => Remove(Get(id));
+
+        /// <inheritdoc />
+        public async Task RemoveAsync(TKey key, CancellationToken token) => Remove(await GetAsync(key, token));
+
+        /// <inheritdoc />
+        public TEntity Find(TKey id) => Set.Find(id);
+
+        /// <inheritdoc />
         public async Task<TEntity> FindAsync(TKey id, CancellationToken token) =>
-            await _set.FindAsync(new[] { id }, token);
-
-        private static TEntity FindOrThrow(TKey id)
-        {
-            var entity=Find(id)
-
-            if (entity == null)
-            {
-                // TODO CREATE REPOSITORY EXCEPTION
-                throw new EntityNotFoundException<TEntity,TKey>(id);
-            }
-
-            return entity;
-        }
-
-        /// <summary>
-        /// Get expression with properties, which should be included to query.
-        /// </summary>
-        /// <returns>Expression with included properties.</returns>
-        protected virtual Expression<Func<TEntity, object>>[] GetIncludes() => Array.Empty<Expression<Func<TEntity, object>>>();
+            await Set.FindAsync(new object[] { id }, token);
 
         private IQueryable<TEntity> AddIncludes(IQueryable<TEntity> set)
         {
-            var includes = GetIncludes();
-
-            if (includes != null && includes.Length > 0)
+            if (!Includes.IsNullOrEmpty())
             {
-                set = includes.Aggregate(set, (current, include) => current.Include(include));
+                set = Includes.Aggregate(set, (current, include) => current.Include(include));
             }
 
             return set;
-        }
-
-        private IQueryable<TEntity> FormQueryable(Query<TEntity> query)
-        {
-            var result = _set.AsQueryable();
-
-            if (query.WhereExpression != null)
-            {
-                result = result.Where(query.WhereExpression);
-            }
-
-            if (query.IncludeExpressions.Count > 0)
-            {
-                result = query.IncludeExpressions.Aggregate(result, (current, include) => current.Include(include));
-            }
-
-            if (query.Offset != 0)
-            {
-                result = result.Skip(query.Offset);
-            }
-
-            return result;
         }
     }
 }

@@ -1,21 +1,33 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netstandard2.1</TargetFramework>
+    <TargetFramework>net6.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <GenerateDocumentationFile>True</GenerateDocumentationFile>
+    <OutputType>Library</OutputType>
+    <AnalysisLevel>latest-Recommended</AnalysisLevel>
+    <LangVersion>latest</LangVersion>
+
     <AssemblyName>Jopalesha.Common.Contract</AssemblyName>
     <RootNamespace>Jopalesha.Common.Contract</RootNamespace>
-    <LangVersion>latest</LangVersion>
-    <GenerateDocumentationFile>True</GenerateDocumentationFile>
-    <CodeAnalysisRuleSet>..\..\standart.ruleset</CodeAnalysisRuleSet>
-    <Version>1.0.2</Version>
+
+      <Authors>Jopalesha</Authors>
+      <PackageDescription>Common api contract library.</PackageDescription>
+      <RepositoryUrl>https://github.com/jopalesha/Common/tree/master/Common.Infrastructure/Infrastructure.Mapper/Mapper.Automapper</RepositoryUrl>
+      <PackageLicenseExpression>MIT</PackageLicenseExpression>
+
+    <Version>1.0.3.0</Version>
+    <AssemblyVersion>1.0.3.0</AssemblyVersion>
+    <FileVersion>1.0.3.0</FileVersion>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="StyleCop.Analyzers" Version="1.2.0-beta.435">
+    <PackageReference Include="StyleCop.Analyzers.Unstable" Version="1.2.0.435">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="System.ComponentModel.Annotations" Version="4.7.0" />
+    <PackageReference Include="System.ComponentModel.Annotations" Version="5.0.0" />
   </ItemGroup>
 
 </Project>

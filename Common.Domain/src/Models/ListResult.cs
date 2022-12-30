@@ -1,5 +1,3 @@
-using System.Collections.Generic;
-using System.Linq;
 using Jopalesha.CheckWhenDoIt;
 
 namespace Jopalesha.Common.Domain.Models
@@ -32,4 +30,3 @@ namespace Jopalesha.Common.Domain.Models
         public int TotalCount { get; }
     }
 }
-

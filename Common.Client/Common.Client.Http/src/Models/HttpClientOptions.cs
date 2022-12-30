@@ -2,7 +2,6 @@ using System;
 using Jopalesha.CheckWhenDoIt;
 
 // ReSharper disable UnusedMember.Global
-
 namespace Jopalesha.Common.Client.Http.Models
 {
     /// <summary>

@@ -1,17 +1,35 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netstandard2.1</TargetFramework>
+    <TargetFramework>net6.0</TargetFramework>
+    <OutputType>Library</OutputType>
+    <LangVersion>latest</LangVersion>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <GenerateDocumentationFile>True</GenerateDocumentationFile>
+    
     <AssemblyName>Jopalesha.Common.Infrastructure.Configuration.Json</AssemblyName>
     <RootNamespace>Jopalesha.Common.Infrastructure.Configuration.Json</RootNamespace>
-    <Version>1.0.6</Version>
+    
+    <Authors>Jopalesha</Authors>
+    <PackageDescription>IConfiguration implementation with json file</PackageDescription>
+    <RepositoryUrl>https://github.com/jopalesha/Common/tree/master/Common.Infrastructure/Infrastructure.Configuration/Configuration.Json</RepositoryUrl>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+
+    <Version>1.0.7.0</Version>
+    <AssemblyVersion>1.0.7.0</AssemblyVersion>
+    <FileVersion>1.0.7.0</FileVersion>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Jopalesha.Common.Infrastructure" Version="1.0.16" />
-    <PackageReference Include="Microsoft.Extensions.Configuration.Binder" Version="3.1.3" />
-    <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="3.1.3" />
-    <PackageReference Include="SimpleInjector" Version="4.10.2" />
+    <PackageReference Include="Jopalesha.Common.Infrastructure" Version="1.0.18" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.Binder" Version="6.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="6.0.0" />
+    <PackageReference Include="SimpleInjector" Version="5.3.3" />
+    <PackageReference Include="StyleCop.Analyzers" Version="1.2.0-beta.435">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
   </ItemGroup>
 
 </Project>

@@ -1,35 +1,36 @@
-﻿using System;
+using System;
 using System.Net;
 using Jopalesha.Common.Client.Http.Components;
 using Jopalesha.Common.Client.Http.Extensions;
 using Jopalesha.Common.Client.Http.Models;
 using Xunit;
 
-namespace Jopalesha.Common.Client.Http.Tests;
-
-public class ProxyFactoryTests
+namespace Jopalesha.Common.Client.Http.Tests.Components
 {
-    private readonly IProxyFactory _sut;
-
-    public ProxyFactoryTests()
+    public class ProxyFactoryTests
     {
-        _sut = new ProxyFactory();
-    }
+        private readonly IProxyFactory _sut;
 
-    [Fact]
-    public void Create_WitNullOptions_ThrowsArgumentNullException() =>
-        Assert.Throws<ArgumentNullException>(() => _sut.Create(null));
+        public ProxyFactoryTests()
+        {
+            _sut = new ProxyFactory();
+        }
 
-    [Fact]
-    public void Create_HttpProxyType_ReturnsWebProxy()
-    {
-        var url = UriExtensions.CreateFromIp("178.159.99.50:1085");
-        var credentials = new NetworkCredential("login", "password");
-        var options = new ProxyOptions(url, ProxyType.Http, credentials);
+        [Fact]
+        public void Create_WitNullOptions_ThrowsArgumentNullException() =>
+            Assert.Throws<ArgumentNullException>(() => _sut.Create(null));
 
-        var actual = Assert.IsType<WebProxy>(_sut.Create(options));
+        [Fact]
+        public void Create_HttpProxyType_ReturnsWebProxy()
+        {
+            var url = UriExtensions.CreateFromIp("178.159.99.50:1085");
+            var credentials = new NetworkCredential("login", "password");
+            var options = new ProxyOptions(url, ProxyType.Http, credentials);
 
-        Assert.Equal(actual.Address, url);
-        Assert.Equal(actual.Credentials, credentials);
+            var actual = Assert.IsType<WebProxy>(_sut.Create(options));
+
+            Assert.Equal(actual.Address, url);
+            Assert.Equal(actual.Credentials, credentials);
+        }
     }
 }

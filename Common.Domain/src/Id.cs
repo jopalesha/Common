@@ -1,4 +1,5 @@
 using Jopalesha.CheckWhenDoIt;
+#pragma warning disable CS8618
 
 namespace Jopalesha.Common.Domain
 {
@@ -19,15 +20,11 @@ namespace Jopalesha.Common.Domain
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Id{T}"/> class.
+        /// Used in child classes.
         /// </summary>
         protected Id()
         {
         }
-
-        /// <summary>
-        /// Gets id value.
-        /// </summary>
-        public T Value { get; }
 
         /// <summary>
         /// Gets generated id.
@@ -35,17 +32,14 @@ namespace Jopalesha.Common.Domain
         public static GeneratedId<T> Generated => new();
 
         /// <summary>
+        /// Gets id value.
+        /// </summary>
+        public virtual T Value { get; }
+
+        /// <summary>
         /// Implicit operator.
         /// </summary>
         /// <param name="value">Value.</param>
         public static implicit operator Id<T>(T value) => new(value);
-    }
-
-    /// <summary>
-    /// Id, which generates after saving in repository.
-    /// </summary>
-    /// <typeparam name="T">Type of id.</typeparam>
-    public class GeneratedId<T> : Id<T>
-    {
     }
 }

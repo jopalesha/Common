@@ -1,37 +1,35 @@
-using System;
-using System.Collections.Generic;
-using System.Text;
+namespace Jopalesha.Common.Domain.Exceptions;
 
-namespace Jopalesha.Common.Domain.Exceptions
+/// <summary>
+/// Entity not found exception.
+/// </summary>
+/// <typeparam name="TEntity">Entity type.</typeparam>
+[Serializable]
+public class EntityNotFoundException<TEntity> : Exception
 {
     /// <summary>
-    /// Entity not found exception.
+    /// Initializes a new instance of the <see cref="EntityNotFoundException{TEntity}"/> class.
     /// </summary>
-    [Serializable]
-    public class EntityNotFoundException<TEntity, TKey> : Exception where TEntity:IEntity<TKey>
+    /// <param name="id">Identifier.</param>
+    public EntityNotFoundException(object id) : this($"There is no {nameof(TEntity)} entity with id {id}")
     {
+    }
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="EntityNotFoundException{TEntity, TKey}"/> class.
-        /// </summary>
-        /// <param name="id">Identifier.</param>
-        public EntityNotFoundException(TKey id) : this($"There is no {nameof(TEntity)} entity with id {id}")
-        {
-            Id = id;
-        }
+    /// <summary>
+    /// Initializes a new instance of the <see cref="EntityNotFoundException{TEntity}"/> class.
+    /// </summary>
+    /// <param name="message">Error message.</param>
+    public EntityNotFoundException(string message) : base(message)
+    {
+    }
 
-        public TKey Id { get; }
-
-        /// <inheritdoc />
-        public EntityNotFoundException(string message) : base(message) { }
-
-        /// <inheritdoc />
-        public EntityNotFoundException(string message, Exception inner) : base(message, inner) { }
-
-        /// <inheritdoc />
-        protected EntityNotFoundException(
-            System.Runtime.Serialization.SerializationInfo info,
-            System.Runtime.Serialization.StreamingContext context) : base(info, context) { }
+    /// <summary>
+    /// Initializes a new instance of the <see cref="EntityNotFoundException{TEntity}"/>
+    /// class, with inner exception.
+    /// </summary>
+    /// <param name="message">Error message.</param>
+    /// <param name="inner">Inner exception.</param>
+    public EntityNotFoundException(string message, Exception inner) : base(message, inner)
+    {
     }
 }
-

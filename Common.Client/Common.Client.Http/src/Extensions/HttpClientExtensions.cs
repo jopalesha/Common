@@ -20,7 +20,7 @@ namespace Jopalesha.Common.Client.Http.Extensions
         /// <param name="client">Http client.</param>
         /// <param name="requestUri">The Uri the request is sent to.</param>
         /// <param name="token">Cancellation token.</param>
-        /// <returns>Data</returns>
+        /// <returns>Response data.</returns>
         public static async Task<T> Get<T>(this HttpClient client, Uri requestUri, CancellationToken token) =>
             await GetResult<T>(client.GetAsync(requestUri, token), token);
 
@@ -67,7 +67,7 @@ namespace Jopalesha.Common.Client.Http.Extensions
             CancellationToken token) => await GetResult<TResponse>(client.PutAsJsonAsync(requestUri, request, token), token);
 
         /// <summary>
-        /// POST request. 
+        /// POST request.
         /// </summary>
         /// <typeparam name="TRequest">Request data type.</typeparam>
         /// <param name="client">Http client.</param>
@@ -121,7 +121,6 @@ namespace Jopalesha.Common.Client.Http.Extensions
             this HttpClient client,
             Uri requestUri,
             CancellationToken token) => await GetResult<TResponse>(client.DeleteAsync(requestUri, token), token);
-
 
         private static async Task<T> GetResult<T>(
             Task<HttpResponseMessage> task,

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
@@ -15,25 +15,25 @@ namespace Jopalesha.Common.Client.Http.Components
     /// </summary>
     public class ClearanceHandler : DelegatingHandler
     {
-        private readonly CookieContainer _cookies = new();
         private const string CloudFlareServerName = "cloudflare-nginx";
         private const string IdCookieName = "__cfduid";
         private const string ClearanceCookieName = "cf_clearance";
+        private readonly CookieContainer _cookies = new();
         private readonly HttpClient _client;
 
         /// <summary>
-        /// Constructor with.
+        /// Initializes a new instance of the <see cref="ClearanceHandler"/> class with proxy.
         /// </summary>
-        /// <param name="proxy"></param>
+        /// <param name="proxy">Proxy.</param>
         public ClearanceHandler(IWebProxy proxy)
             : this(new HttpClientHandler(), proxy)
         {
         }
 
         /// <summary>
-        /// Constructor with inner handler.
+        /// Initializes a new instance of the <see cref="ClearanceHandler"/> class with handler.
         /// </summary>
-        /// <param name="innerHandler"></param>
+        /// <param name="innerHandler">Inner handler.</param>
         public ClearanceHandler(HttpMessageHandler innerHandler) : base(innerHandler)
         {
             var httpClientHandler = new HttpClientHandler
@@ -56,10 +56,11 @@ namespace Jopalesha.Common.Client.Http.Components
         }
 
         /// <summary>
-        /// Constructor with handler.
+        /// Initializes a new instance of the <see cref="ClearanceHandler"/> class
+        /// with inner handler and proxy.
         /// </summary>
         /// <param name="innerHandler">Inner handler.</param>
-        /// <param name="proxy"></param>
+        /// <param name="proxy">Proxy.</param>
         public ClearanceHandler(HttpMessageHandler innerHandler, IWebProxy proxy)
             : base(innerHandler)
         {
@@ -124,17 +125,20 @@ namespace Jopalesha.Common.Client.Http.Components
         private static bool IsClearanceRequired(HttpResponseMessage response)
         {
             return response.StatusCode == HttpStatusCode.ServiceUnavailable &
-                   response.Headers.Server.Any(i => i.Product.Name == CloudFlareServerName) &
+                   response.Headers.Server.Any(i => i.Product?.Name == CloudFlareServerName) &
                    response.Headers.Contains("Refresh");
         }
 
         private void InjectCookies(HttpRequestMessage request)
         {
-            var list = _cookies.GetCookies(request.RequestUri).Cast<Cookie>().ToList();
+            var list = _cookies.GetCookies(request.RequestUri!).ToList();
             var cookie1 = list.FirstOrDefault(c => c.Name == IdCookieName);
             var cookie2 = list.FirstOrDefault(c => c.Name == ClearanceCookieName);
             if (cookie1 == null || cookie2 == null)
+            {
                 return;
+            }
+
             if (ClientHandler.UseCookies)
             {
                 ClientHandler.CookieContainer.Add(request.RequestUri, cookie1);
@@ -150,11 +154,10 @@ namespace Jopalesha.Common.Client.Http.Components
         private async Task PassClearance(HttpResponseMessage response, CancellationToken cancellationToken)
         {
             SaveIdCookie(response);
-            var str = await response.Content.ReadAsStringAsync();
-            var pageContent = str;
-            var scheme = response.RequestMessage.RequestUri.Scheme;
+            var str = await response.Content.ReadAsStringAsync(cancellationToken);
+            var scheme = response!.RequestMessage!.RequestUri!.Scheme;
             var host = response.RequestMessage.RequestUri.Host;
-            var solution = ChallengeSolver.Solve(pageContent, host);
+            var solution = ChallengeSolver.Solve(str, host);
             var clearanceUri = $"{scheme}://{host}{solution.ClearanceQuery}";
             await Task.Delay(5000, cancellationToken);
             using var clearanceRequest = new HttpRequestMessage(HttpMethod.Get, clearanceUri);
@@ -169,8 +172,10 @@ namespace Jopalesha.Common.Client.Http.Components
         private void SaveIdCookie(HttpResponseMessage response)
         {
             foreach (var cookieHeader in response.Headers.Where(pair => pair.Key == "Set-Cookie")
-                .SelectMany(pair => pair.Value).Where(cookie => cookie.StartsWith("__cfduid=")))
-                _cookies.SetCookies(response.RequestMessage.RequestUri, cookieHeader);
+                         .SelectMany(pair => pair.Value).Where(cookie => cookie.StartsWith("__cfduid=")))
+            {
+                _cookies.SetCookies(response.RequestMessage!.RequestUri!, cookieHeader);
+            }
         }
     }
 }

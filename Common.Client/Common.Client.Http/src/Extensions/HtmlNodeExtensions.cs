@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using HtmlAgilityPack;
-using Jopalesha.Common.Infrastructure.Logging;
 using Jopalesha.Helpers;
 
 namespace Jopalesha.Common.Client.Http.Extensions
@@ -13,40 +12,44 @@ namespace Jopalesha.Common.Client.Http.Extensions
     /// </summary>
     public static class HtmlNodeExtensions
     {
-        // TODO REMOVE LOGGER.
-        private static readonly ILogger _logger = LoggerFactory.Create();
-
+        /// <summary>
+        /// Get list of strings from node.
+        /// </summary>
+        /// <param name="node">Html node.</param>
+        /// <param name="path">The XPath expression.</param>
+        /// <returns>List of strings.</returns>
         public static IList<string> GetListOfString(this HtmlNode node, string path)
         {
             return node.SelectNodes(path)?.Select(htmlNode => htmlNode?.InnerHtml.Trim())
                 .Where(innerHtml => !string.IsNullOrWhiteSpace(innerHtml)).ToList();
         }
 
+        /// <summary>
+        /// Get list of double values from node.
+        /// </summary>
+        /// <param name="node">Html node.</param>
+        /// <param name="path">The XPath expression.</param>
+        /// <returns>List of values.</returns>
         public static IList<double> GetListOfDouble(this HtmlNode node, string path)
         {
             var result = new List<double>();
 
             var nodes = node.SelectNodes(path);
 
-            if (nodes != null)
+            if (nodes == null)
             {
-                foreach (var htmlNode in nodes)
-                {
-                    var innerHtml = htmlNode.InnerHtml.Trim();
-
-                    if (StringHelper.TryParseToDouble(innerHtml, out var value))
-                    {
-                        result.Add(value);
-                    }
-                    else
-                    {
-                        _logger.Error($"Can't convert {innerHtml} to double");
-                    }
-                }
+                throw new ArgumentNullException(
+                    $"Can't retrieve double nodes from node {node.InnerHtml} by path {path}.");
             }
-            else
+
+            foreach (var htmlNode in nodes)
             {
-                _logger.Error($"Can't parse {node.InnerHtml} by {path}");
+                var innerHtml = htmlNode.InnerHtml.Trim();
+
+                if (StringHelper.TryParseToDouble(innerHtml, out var value))
+                {
+                    result.Add(value);
+                }
             }
 
             return result;
@@ -57,25 +60,38 @@ namespace Jopalesha.Common.Client.Http.Extensions
         /// </summary>
         /// <param name="node">Html node.</param>
         /// <param name="path">The XPath expression.</param>
-        /// <param name="needLogError">Flag, which indicates should we log problem nods or not.</param>
         /// <typeparam name="T">Value type.</typeparam>
         /// <returns>Value.</returns>
-        public static T GetValue<T>(this HtmlNode node, string path, bool needLogError = true)
+        public static T GetValue<T>(this HtmlNode node, string path)
+        {
+            if (node.TryGetValue<T>(path, out var result))
+            {
+                return result;
+            }
+
+            throw new ArgumentException($"Can't retrieve value from node {node.InnerHtml} by path {path}");
+        }
+
+        /// <summary>
+        /// Try get value from html node.
+        /// </summary>
+        /// <param name="node">Html node.</param>
+        /// <param name="path">The XPath expression.</param>
+        /// <param name="result">Value.</param>
+        /// <typeparam name="T">Value type.</typeparam>
+        /// <returns>True if value successfully retrieved; otherwise, false.</returns>
+        public static bool TryGetValue<T>(this HtmlNode node, string path, out T result)
         {
             var stringValue = node.SelectSingleNode(path)?.InnerText.Trim();
 
-            if (!string.IsNullOrEmpty(stringValue))
+            if (string.IsNullOrWhiteSpace(stringValue))
             {
-                return (T)Convert.ChangeType(stringValue, typeof(T), CultureInfo.InvariantCulture);
+                result = default;
+                return false;
             }
 
-            if (needLogError)
-            {
-                _logger.Error($@"Cant retrieve info from: {node.InnerHtml}
-                                For search string: {path}");
-            }
-
-            return default;
+            result = (T)Convert.ChangeType(stringValue, typeof(T), CultureInfo.InvariantCulture);
+            return true;
         }
 
         /// <summary>

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Net;
 using Jopalesha.Common.Client.Http.Models;
 using Jopalesha.Common.Infrastructure.Configuration;
@@ -15,15 +15,19 @@ namespace Jopalesha.Common.Client.Http.Components.ConfigOptions
     {
         private readonly IConfiguration _configuration;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="HttpClientConfigOptionsProvider"/> class.
+        /// </summary>
+        /// <param name="configuration">Configuration.</param>
         public HttpClientConfigOptionsProvider(IConfiguration configuration)
         {
             _configuration = configuration;
         }
 
-        ///<inheritdoc />
+        /// <inheritdoc />
         public HttpClientOptions Get(string section)
         {
-            var options = _configuration.GetSection<HttpOptionsConfig>(section);
+            var options = _configuration.GetValue<HttpOptionsConfig>(section);
             var url = new Uri(options.Url);
             var timeout = options.Timeout.HasValue
                 ? TimeSpan.FromSeconds(options.Timeout.Value)

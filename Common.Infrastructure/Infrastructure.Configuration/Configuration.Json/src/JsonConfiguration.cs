@@ -1,23 +1,45 @@
-﻿using System;
 using Microsoft.Extensions.Configuration;
 
 namespace Jopalesha.Common.Infrastructure.Configuration.Json
 {
-    public class JsonConfiguration : IConfiguration
+    /// <summary>
+    /// Json configuration.
+    /// </summary>
+    internal class JsonConfiguration : IConfiguration
     {
-        private readonly Lazy<IConfigurationRoot> _configurationRoot = new Lazy<IConfigurationRoot>(Initialize);
+        private readonly IConfigurationRoot _configurationRoot;
 
-        public T GetSection<T>(string section)
+        /// <summary>
+        /// Initializes a new instance of the <see cref="JsonConfiguration"/> class with default initialization.
+        /// <br></br>
+        /// Use "appsettings.json" file by default.
+        /// </summary>
+        public JsonConfiguration() : this(DefaultInitialization())
         {
-            return _configurationRoot.Value.GetSection(section).Get<T>();
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="JsonConfiguration"/> class with custom initialization.
+        /// </summary>
+        /// <param name="root">Configuration root.</param>
+        public JsonConfiguration(IConfigurationRoot root)
+        {
+            _configurationRoot = root;
+        }
+
+        /// <inheritdoc />
         public string GetConnection(string value)
         {
-            return _configurationRoot.Value.GetConnectionString(value);
+            return _configurationRoot.GetConnectionString(value);
         }
 
-        private static IConfigurationRoot Initialize()
+        /// <inheritdoc />
+        public T GetValue<T>(string section)
+        {
+            return _configurationRoot.GetSection(section).Get<T>();
+        }
+
+        private static IConfigurationRoot DefaultInitialization()
         {
             return new ConfigurationBuilder()
                 .AddJsonFile("appsettings.json")

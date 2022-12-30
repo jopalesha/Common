@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
-VisualStudioVersion = 17.2.32317.152
+VisualStudioVersion = 17.4.33110.190
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Common.Data", "Common.Data", "{9C979A76-29BA-47B6-95EA-DC160AB82BEB}"
 	ProjectSection(SolutionItems) = preProject
@@ -18,6 +18,7 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Nuget", "Nuget", "{0E7DC0B5-BE7D-4D43-B595-1F974B3C366E}"
 	ProjectSection(SolutionItems) = preProject
 		commands.json = commands.json
+		nuget.config = nuget.config
 	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Common.Data.EntityFramework", "Common.Data\Common.Data.EntityFramework\src\Common.Data.EntityFramework.csproj", "{8EC52CF3-0923-4F09-A2FA-1418B52AD9C4}"
@@ -48,19 +49,16 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Common.Hosting", "Common.Ho
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Common.Hosting", "Common.Hosting\Common.Hosting.WindowsService\src\Common.Hosting.csproj", "{7B89BFB0-CF54-4C0A-8A95-BE01F25A1284}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Common.Infrastructure", "Common.Infrastructure\Infrastructure\src\Common.Infrastructure.csproj", "{59E13D31-748E-478D-BE94-922DE9B2D9AE}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Mapper", "Mapper", "{28179E6D-FF3E-45DE-BC24-2FEABFC80943}"
 	ProjectSection(SolutionItems) = preProject
 		Common.Infrastructure\Infrastructure.Mapper\Mapper.Automapper\Mapper.AutoMapper.bat = Common.Infrastructure\Infrastructure.Mapper\Mapper.Automapper\Mapper.AutoMapper.bat
 	EndProjectSection
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Mapper.AutoMapper", "Common.Infrastructure\Infrastructure.Mapper\Mapper.Automapper\src\Mapper.AutoMapper.csproj", "{88BA8B78-63D1-4B18-AD6F-3644490D9FB1}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Logging", "Logging", "{8468C199-D21A-45A9-9EBB-DAC2DDBFCA70}"
 	ProjectSection(SolutionItems) = preProject
 		Common.Infrastructure\Infrastructure.Logging\Logging.Console\Logging.Console.bat = Common.Infrastructure\Infrastructure.Logging\Logging.Console\Logging.Console.bat
 		Common.Infrastructure\Infrastructure.Logging\Logging.NLog\Logging.NLog.bat = Common.Infrastructure\Infrastructure.Logging\Logging.NLog\Logging.NLog.bat
+		Common.Infrastructure\Infrastructure.Logging\Logging.Serilog\Logging.Serilog.bat = Common.Infrastructure\Infrastructure.Logging\Logging.Serilog\Logging.Serilog.bat
 	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Logging.NLog", "Common.Infrastructure\Infrastructure.Logging\Logging.NLog\src\Logging.NLog.csproj", "{AC2EAA68-B5DA-49F7-9442-2F2E6EC3722F}"
@@ -126,8 +124,15 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{3DAF88FB-7C92-4B8C-8E47-A79D40F91B63}"
 	ProjectSection(SolutionItems) = preProject
 		.editorconfig = .editorconfig
-		standart.ruleset = standart.ruleset
 	EndProjectSection
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Common.Data.EntityFramework.Integration", "Common.Data\Common.Data.EntityFramework\tests\Common.Data.EntityFramework.Integration\Common.Data.EntityFramework.Integration.csproj", "{09427732-2B08-4DDD-AF60-ED27A817419B}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Logging.Serilog", "Common.Infrastructure\Infrastructure.Logging\Logging.Serilog\src\Logging.Serilog.csproj", "{C603DAE8-89E5-4E41-8C93-FF1B3DF8B4D8}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Mapper.AutoMapper", "Common.Infrastructure\Infrastructure.Mapper\Mapper.AutoMapper\src\Mapper.AutoMapper.csproj", "{284FFCFD-65E8-4327-AC09-8F43047D33A7}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Common.Infrastructure", "Common.Infrastructure\Infrastructure\src\Common.Infrastructure.csproj", "{AC718818-18A5-456C-B465-C67335793C52}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -155,14 +160,6 @@ Global
 		{7B89BFB0-CF54-4C0A-8A95-BE01F25A1284}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7B89BFB0-CF54-4C0A-8A95-BE01F25A1284}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7B89BFB0-CF54-4C0A-8A95-BE01F25A1284}.Release|Any CPU.Build.0 = Release|Any CPU
-		{59E13D31-748E-478D-BE94-922DE9B2D9AE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{59E13D31-748E-478D-BE94-922DE9B2D9AE}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{59E13D31-748E-478D-BE94-922DE9B2D9AE}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{59E13D31-748E-478D-BE94-922DE9B2D9AE}.Release|Any CPU.Build.0 = Release|Any CPU
-		{88BA8B78-63D1-4B18-AD6F-3644490D9FB1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{88BA8B78-63D1-4B18-AD6F-3644490D9FB1}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{88BA8B78-63D1-4B18-AD6F-3644490D9FB1}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{88BA8B78-63D1-4B18-AD6F-3644490D9FB1}.Release|Any CPU.Build.0 = Release|Any CPU
 		{AC2EAA68-B5DA-49F7-9442-2F2E6EC3722F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{AC2EAA68-B5DA-49F7-9442-2F2E6EC3722F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AC2EAA68-B5DA-49F7-9442-2F2E6EC3722F}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -247,6 +244,22 @@ Global
 		{4B1C9025-CC18-44BB-ACB7-686D011F58A6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4B1C9025-CC18-44BB-ACB7-686D011F58A6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4B1C9025-CC18-44BB-ACB7-686D011F58A6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{09427732-2B08-4DDD-AF60-ED27A817419B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{09427732-2B08-4DDD-AF60-ED27A817419B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{09427732-2B08-4DDD-AF60-ED27A817419B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{09427732-2B08-4DDD-AF60-ED27A817419B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C603DAE8-89E5-4E41-8C93-FF1B3DF8B4D8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C603DAE8-89E5-4E41-8C93-FF1B3DF8B4D8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C603DAE8-89E5-4E41-8C93-FF1B3DF8B4D8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C603DAE8-89E5-4E41-8C93-FF1B3DF8B4D8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{284FFCFD-65E8-4327-AC09-8F43047D33A7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{284FFCFD-65E8-4327-AC09-8F43047D33A7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{284FFCFD-65E8-4327-AC09-8F43047D33A7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{284FFCFD-65E8-4327-AC09-8F43047D33A7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AC718818-18A5-456C-B465-C67335793C52}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AC718818-18A5-456C-B465-C67335793C52}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AC718818-18A5-456C-B465-C67335793C52}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AC718818-18A5-456C-B465-C67335793C52}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -256,9 +269,7 @@ Global
 		{8EC52CF3-0923-4F09-A2FA-1418B52AD9C4} = {9C979A76-29BA-47B6-95EA-DC160AB82BEB}
 		{2BD87729-0715-42E5-BF95-109D3AF9DA70} = {90725323-9511-4FEC-8145-B93FDA3F66BF}
 		{7B89BFB0-CF54-4C0A-8A95-BE01F25A1284} = {B6C1B2E0-BD1A-4B82-899F-92DE0110AF51}
-		{59E13D31-748E-478D-BE94-922DE9B2D9AE} = {8BD0C360-B2DD-4417-A9B9-19F957FD56C4}
 		{28179E6D-FF3E-45DE-BC24-2FEABFC80943} = {8BD0C360-B2DD-4417-A9B9-19F957FD56C4}
-		{88BA8B78-63D1-4B18-AD6F-3644490D9FB1} = {28179E6D-FF3E-45DE-BC24-2FEABFC80943}
 		{8468C199-D21A-45A9-9EBB-DAC2DDBFCA70} = {8BD0C360-B2DD-4417-A9B9-19F957FD56C4}
 		{AC2EAA68-B5DA-49F7-9442-2F2E6EC3722F} = {8468C199-D21A-45A9-9EBB-DAC2DDBFCA70}
 		{A159BB91-5095-4DE1-BAD4-9BAB08DC3F3C} = {8BD0C360-B2DD-4417-A9B9-19F957FD56C4}
@@ -284,6 +295,10 @@ Global
 		{7917750A-27DB-4DB4-8EB6-14CAAB1C7A00} = {8BD0C360-B2DD-4417-A9B9-19F957FD56C4}
 		{7D1E884B-832F-494D-8B81-BFD9CB2A32B4} = {7917750A-27DB-4DB4-8EB6-14CAAB1C7A00}
 		{4B1C9025-CC18-44BB-ACB7-686D011F58A6} = {90725323-9511-4FEC-8145-B93FDA3F66BF}
+		{09427732-2B08-4DDD-AF60-ED27A817419B} = {9C979A76-29BA-47B6-95EA-DC160AB82BEB}
+		{C603DAE8-89E5-4E41-8C93-FF1B3DF8B4D8} = {8468C199-D21A-45A9-9EBB-DAC2DDBFCA70}
+		{284FFCFD-65E8-4327-AC09-8F43047D33A7} = {28179E6D-FF3E-45DE-BC24-2FEABFC80943}
+		{AC718818-18A5-456C-B465-C67335793C52} = {8BD0C360-B2DD-4417-A9B9-19F957FD56C4}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {42CCA79B-48BA-4FFE-8D6B-D34A25E87A36}

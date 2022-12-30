@@ -1,7 +1,7 @@
-﻿namespace Jopalesha.Common.Infrastructure.Serializer
+namespace Jopalesha.Common.Infrastructure.Serializer
 {
     /// <summary>
-    /// Provides methods for converting between .NET types and serializable string
+    /// Provides methods for converting between .NET types and serializable string.
     /// </summary>
     public interface ISerializer
     {

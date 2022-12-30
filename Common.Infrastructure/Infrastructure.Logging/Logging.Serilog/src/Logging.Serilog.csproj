@@ -1,0 +1,35 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <GenerateDocumentationFile>True</GenerateDocumentationFile>
+    <OutputType>Library</OutputType>
+    <LangVersion>latest</LangVersion>
+    <AnalysisLevel>latest-Recommended</AnalysisLevel>
+
+    <RootNamespace>Jopalesha.Common.Infrastructure.Logging.Serilog</RootNamespace>
+    <AssemblyName>Jopalesha.Common.Infrastructure.Logging.Serilog</AssemblyName>
+
+    <Authors>Jopalesha</Authors>
+    <PackageDescription>Serilog implementation for the ILogger interface.</PackageDescription>
+    <RepositoryUrl>https://github.com/jopalesha/Common/tree/master/Common.Infrastructure/Infrastructure.Logging/Logging.Serilog</RepositoryUrl>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+
+    <Version>1.0.1.0</Version>
+    <AssemblyVersion>1.0.1.0</AssemblyVersion>
+    <FileVersion>1.0.1.0</FileVersion>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Jopalesha.Common.Infrastructure" Version="1.0.18" />
+    <PackageReference Include="Serilog" Version="2.12.0" />
+    <PackageReference Include="SimpleInjector" Version="5.4.0" />
+    <PackageReference Include="StyleCop.Analyzers.Unstable" Version="1.2.0.435">
+        <PrivateAssets>all</PrivateAssets>
+        <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+  </ItemGroup>
+
+</Project>

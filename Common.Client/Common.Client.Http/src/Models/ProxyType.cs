@@ -1,4 +1,4 @@
-﻿namespace Jopalesha.Common.Client.Http.Models
+namespace Jopalesha.Common.Client.Http.Models
 {
     /// <summary>
     /// Proxy type.
@@ -9,6 +9,7 @@
         /// Http.
         /// </summary>
         Http,
+
         /// <summary>
         /// Sock 5.
         /// </summary>

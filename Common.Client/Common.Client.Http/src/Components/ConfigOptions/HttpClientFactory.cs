@@ -11,12 +11,12 @@ namespace Jopalesha.Common.Client.Http.Components.ConfigOptions
         private readonly IHttpClientConfigOptionsProvider _optionsProvider;
 
         /// <summary>
-        /// Constructor.
+        /// Initializes a new instance of the <see cref="HttpClientFactory"/> class.
         /// </summary>
-        /// <param name="proxyFactory"><see cref="IProxyFactory"/></param>
+        /// <param name="proxyFactory">Proxy factory.</param>
         /// <param name="optionsProvider">Options provider.</param>
         public HttpClientFactory(
-            IProxyFactory proxyFactory, 
+            IProxyFactory proxyFactory,
             IHttpClientConfigOptionsProvider optionsProvider)
         {
             _proxyFactory = proxyFactory;
@@ -26,11 +26,9 @@ namespace Jopalesha.Common.Client.Http.Components.ConfigOptions
         /// <inheritdoc />
         public HttpClient Create(HttpClientOptions options)
         {
-            Check.NotNull(options);
-
             HttpClient client;
 
-            if (options is HttpClientConfigOptions configOptions)
+            if (Check.NotNull(options) is HttpClientConfigOptions configOptions)
             {
                 options = _optionsProvider.Get(configOptions.Section);
             }

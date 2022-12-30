@@ -1,4 +1,4 @@
-﻿using System.ComponentModel;
+using System.ComponentModel;
 using System.Net;
 using Jopalesha.CheckWhenDoIt;
 using Jopalesha.Common.Client.Http.Models;

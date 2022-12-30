@@ -28,6 +28,11 @@ namespace Jopalesha.Common.Client.Http
             _httpClient = new Lazy<HttpClient>(clientFactory);
         }
 
+        /// <summary>
+        /// Gets http client.
+        /// </summary>
+        protected HttpClient Client => _httpClient.Value;
+
         /// <inheritdoc />
         public void Dispose()
         {
@@ -36,14 +41,9 @@ namespace Jopalesha.Common.Client.Http
         }
 
         /// <summary>
-        /// Http client.
-        /// </summary>
-        protected HttpClient Client => _httpClient.Value;
-
-        /// <summary>
         /// Base dispose.
         /// </summary>
-        /// <param name="disposing"></param>
+        /// <param name="disposing">Managed resources flag.</param>
         protected virtual void Dispose(bool disposing)
         {
             if (!disposing)

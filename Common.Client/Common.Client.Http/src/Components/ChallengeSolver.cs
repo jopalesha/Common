@@ -1,11 +1,20 @@
-﻿using System;
+using System;
 using System.Linq;
 using System.Text.RegularExpressions;
 
 namespace Jopalesha.Common.Client.Http.Components
 {
+    /// <summary>
+    /// Challenge solver.
+    /// </summary>
     internal static class ChallengeSolver
     {
+        /// <summary>
+        /// Solve challenge solution.
+        /// </summary>
+        /// <param name="challengePageContent">Page content.</param>
+        /// <param name="targetHost">Target host.</param>
+        /// <returns>Solved solution.</returns>
         public static ChallengeSolution Solve(string challengePageContent, string targetHost)
         {
             var answer = DecodeSecretNumber(challengePageContent, targetHost);
@@ -35,7 +44,10 @@ namespace Jopalesha.Common.Client.Http.Components
         {
             var str = SimplifyObfuscatedNumber(obfuscatedNumber);
             if (!str.Contains("("))
+            {
                 return CountOnes(str);
+            }
+
             return int.Parse(Regex.Matches(str, "\\([1+[\\]]+\\)").Select(m => CountOnes(m.Value))
                 .Aggregate(string.Empty, (number, digit) => number + digit));
         }
@@ -54,16 +66,14 @@ namespace Jopalesha.Common.Client.Http.Components
         {
             string str1 = step.Item1;
             int num = step.Item2;
-            string str2 = str1;
-            if (str2 == "+")
-                return number + num;
-            if (str2 == "-")
-                return number - num;
-            if (str2 == "*")
-                return number * num;
-            if (str2 == "/")
-                return number / num;
-            throw new ArgumentOutOfRangeException($"Unknown operator: {str1}");
+            return str1 switch
+            {
+                "+" => number + num,
+                "-" => number - num,
+                "*" => number * num,
+                "/" => number / num,
+                _ => throw new ArgumentOutOfRangeException($"Unknown operator: {str1}")
+            };
         }
     }
 }

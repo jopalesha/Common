@@ -9,12 +9,6 @@ namespace Jopalesha.Common.Domain
     public abstract class ValueObject
     {
         /// <summary>
-        /// Get list of members to compare.
-        /// </summary>
-        /// <returns>Sequence of objects.</returns>
-        protected abstract IEnumerable<object> GetEqualityMembers();
-
-        /// <summary>
         /// Equality operator.
         /// </summary>
         /// <param name="left">First item.</param>
@@ -31,7 +25,7 @@ namespace Jopalesha.Common.Domain
         public static bool operator !=(ValueObject left, ValueObject right) => !(left == right);
 
         /// <inheritdoc />
-        public override bool Equals(object obj)
+        public override bool Equals(object? obj)
         {
             if (obj == null || obj.GetType() != GetType())
             {
@@ -54,6 +48,7 @@ namespace Jopalesha.Common.Domain
                     return false;
                 }
             }
+
             return !thisValues.MoveNext() && !otherValues.MoveNext();
         }
 
@@ -61,7 +56,13 @@ namespace Jopalesha.Common.Domain
         public override int GetHashCode()
         {
             return GetEqualityMembers()
-                .Aggregate(1, (current, obj) => current * 23 + (obj?.GetHashCode() ?? 0));
+                .Aggregate(1, (current, obj) => (current * 23) + (obj?.GetHashCode() ?? 0));
         }
+
+        /// <summary>
+        /// Get list of members to compare.
+        /// </summary>
+        /// <returns>Sequence of objects.</returns>
+        protected abstract IEnumerable<object> GetEqualityMembers();
     }
 }

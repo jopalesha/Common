@@ -35,7 +35,9 @@ namespace Jopalesha.Common.Client.Http.Tests
         [Fact]
         public void Create_FromConfig_ConstructsClientWithConfigOptions()
         {
-            var client = _sut.Create(HttpClientOptions.FromConfig("hui"));
+            var client = _sut.Create(HttpClientOptions.FromConfig("client"));
+
+            Assert.Equal(new Uri("https://ya.ru"), client.BaseAddress);
         }
     }
 }

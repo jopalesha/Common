@@ -1,4 +1,4 @@
-﻿using System.Net;
+using System.Net;
 using Jopalesha.Common.Client.Http.Models;
 
 namespace Jopalesha.Common.Client.Http.Components

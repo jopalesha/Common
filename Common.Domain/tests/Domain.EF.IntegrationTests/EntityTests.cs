@@ -1,6 +1,7 @@
 using System;
 using System.Threading.Tasks;
 using Jopalesha.Common.Domain;
+using Jopalesha.Common.Domain.Exceptions;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Xunit;
@@ -23,12 +24,11 @@ namespace Common.Domain.EF.IntegrationTests
 
         [Fact]
         public async Task Entity_WithSetId_HasExpectedBehaviour() => await VerifyCreate(new TestEntity(22, "value"));
-=
 
         [Fact]
         public async Task Create_ReturnsExpected()
         {
-            var expected = new TestEntity(Id<int>.Generated, "value");
+            var expected = new TestEntity(32323, "value");
             await _context.TestEntities.AddAsync(expected);
             await _context.SaveChangesAsync();
 
@@ -36,6 +36,10 @@ namespace Common.Domain.EF.IntegrationTests
 
             Assert.Equal(actual.Id, expected.Id);
         }
+
+        [Fact]
+        public void GetId_ForNotGeneratedId_ThrowsIdNotGeneratedException() =>
+            Assert.Throws<IdNotGeneratedException>(() => new TestEntity("test").Id);
 
         private async Task VerifyCreate(TestEntity entity)
         {
@@ -51,32 +55,38 @@ namespace Common.Domain.EF.IntegrationTests
             {
             }
 
+            public DbSet<TestEntity> TestEntities { get; set; }
+
             protected override void OnModelCreating(ModelBuilder modelBuilder)
             {
                 base.OnModelCreating(modelBuilder);
 
                 modelBuilder.ApplyConfiguration(new TestEntityConfiguration());
             }
-
-            public DbSet<TestEntity> TestEntities { get; set; }
         }
 
         private class TestEntityConfiguration: IEntityTypeConfiguration<TestEntity>
         {
             public void Configure(EntityTypeBuilder<TestEntity> builder)
             {
-                builder.Property(it => it.Value).IsRequired();
-
                 builder.HasKey(it => it.Id);
-                builder.Property(c => c.Id).IsRequired()
+                builder.Property(c => c.Id)
+                    .IsRequired()
                     .HasField("_id")
-                    .UsePropertyAccessMode(PropertyAccessMode.Field)
+                    .UsePropertyAccessMode(PropertyAccessMode.PreferField)
                     .ValueGeneratedOnAdd();
+
+                builder.Property(it => it.Value).IsRequired()
+                    .UsePropertyAccessMode(PropertyAccessMode.FieldDuringConstruction);
             }
         }
 
         private class TestEntity : Entity<int>
         {
+            public TestEntity(string value) : this(Id<int>.Generated, value)
+            {
+            }
+
             public TestEntity(Id<int> id, string value) : base(id)
             {
                 Value = value;

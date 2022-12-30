@@ -1,5 +1,3 @@
-using System;
-
 namespace Jopalesha.Common.Domain
 {
     /// <summary>

@@ -1,9 +1,9 @@
-using System.Collections.Generic;
 using Jopalesha.CheckWhenDoIt;
-using Jopalesha.CheckWhenDoIt.Conditions;
+using Jopalesha.Common.Domain.Exceptions;
+#pragma warning disable CS8618
+
 // ReSharper disable AutoPropertyCanBeMadeGetOnly.Local
 // ReSharper disable NonReadonlyMemberInGetHashCode
-
 namespace Jopalesha.Common.Domain
 {
     /// <summary>
@@ -12,13 +12,7 @@ namespace Jopalesha.Common.Domain
     /// <typeparam name="T">Type of id.</typeparam>
     public abstract class Entity<T> : IEntity<T>
     {
-        private readonly T _id;
-        private readonly bool _isGeneratedId;
-
-        /// <summary>
-        /// Gets entity comparer.
-        /// </summary>
-        protected virtual IEqualityComparer<T> Comparer => EqualityComparer<T>.Default;
+        protected readonly T _id;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Entity{T}"/> class.
@@ -26,37 +20,25 @@ namespace Jopalesha.Common.Domain
         /// <param name="id">Id.</param>
         protected Entity(Id<T> id) : this()
         {
-            if (Check.NotNull(id) is GeneratedId<T>)
+            if (Check.NotNull(id) is not GeneratedId<T>)
             {
-                _isGeneratedId = true;
+                _id = id.Value;
             }
-
-            _id = id.Value;
         }
 
-        private Entity() { }
+        private Entity()
+        {
+        }
 
         /// <inheritdoc />
-        public T Id => When.False(_isGeneratedId).Then(_id).ElseThrows();
+        public T Id => Check.NotDefault(_id, new IdNotGeneratedException());
+
+        /// <summary>
+        /// Gets entity comparer.
+        /// </summary>
+        protected virtual IEqualityComparer<T> Comparer => EqualityComparer<T>.Default;
 
         #region Equality
-
-        /// <inheritdoc />
-        public sealed override bool Equals(object obj)
-        {
-            if (obj is Entity<T> entity)
-            {
-                return Equals(entity);
-            }
-
-            return false;
-        }
-
-        /// <inheritdoc />
-        public sealed override int GetHashCode() => Comparer.GetHashCode(Id);
-
-        /// <inheritdoc />
-        public virtual bool Equals(Entity<T> other) => other != null && Comparer.Equals(Id, other.Id);
 
         /// <summary>
         /// Equality operator.
@@ -73,6 +55,23 @@ namespace Jopalesha.Common.Domain
         /// <param name="right">Second item.</param>
         /// <returns>True if items are not equal; otherwise, false.</returns>
         public static bool operator !=(Entity<T> left, Entity<T> right) => !(left == right);
+
+        /// <inheritdoc />
+        public sealed override bool Equals(object? obj)
+        {
+            if (obj is Entity<T> entity)
+            {
+                return Equals(entity);
+            }
+
+            return false;
+        }
+
+        /// <inheritdoc />
+        public sealed override int GetHashCode() => Comparer.GetHashCode(Id);
+
+        /// <inheritdoc cref="IEntity{TKey}" />
+        public virtual bool Equals(IEntity<T>? other) => other != null && Comparer.Equals(Id, other.Id);
 
         #endregion
     }

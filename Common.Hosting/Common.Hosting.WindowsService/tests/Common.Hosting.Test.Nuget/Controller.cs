@@ -1,7 +1,6 @@
-﻿using System.Net;
+using System.Net;
 using System.Net.Http;
 using Common.Hosting.Test.Nuget.Components;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Common.Hosting.Test.Nuget

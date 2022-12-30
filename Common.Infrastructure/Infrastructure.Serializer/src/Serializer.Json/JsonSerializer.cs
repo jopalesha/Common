@@ -1,17 +1,17 @@
-﻿using Jopalesha.CheckWhenDoIt;
+using Jopalesha.CheckWhenDoIt;
 using Newtonsoft.Json;
 
 namespace Jopalesha.Common.Infrastructure.Serializer.Json
 {
     /// <summary>
-    /// Newtonsoft json serializer
+    /// Newtonsoft json serializer.
     /// </summary>
     public class JsonSerializer : ISerializer
     {
         private readonly JsonSerializerSettings _settings;
 
         /// <summary>
-        /// Default constructor
+        /// Default constructor.
         /// </summary>
         public JsonSerializer()
         {

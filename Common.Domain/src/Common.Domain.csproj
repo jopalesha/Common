@@ -1,20 +1,27 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netstandard2.1</TargetFramework>
-    <AssemblyName>Jopalesha.Common.Domain</AssemblyName>
-    <RootNamespace>Jopalesha.Common.Domain</RootNamespace>
+    <TargetFramework>net6.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
     <LangVersion>latest</LangVersion>
     <GenerateDocumentationFile>True</GenerateDocumentationFile>
-    <CodeAnalysisRuleSet>..\..\standart.ruleset</CodeAnalysisRuleSet>
-    <AssemblyVersion>1.0.9.0</AssemblyVersion>
-    <FileVersion>1.0.9.0</FileVersion>
-    <Version>1.0.9.0</Version>
+
+    <AssemblyName>Jopalesha.Common.Domain</AssemblyName>
+    <RootNamespace>Jopalesha.Common.Domain</RootNamespace>
+
+    <Authors>Jopalesha</Authors>
+    <RepositoryUrl>https://github.com/jopalesha/Common/tree/master/Common.Domain</RepositoryUrl>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+
+    <AssemblyVersion>1.0.10.0</AssemblyVersion>
+    <FileVersion>1.0.10.0</FileVersion>
+    <Version>1.0.10.0</Version>
   </PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="CheckWhenDoIt" Version="1.0.2" />
-    <PackageReference Include="Jopalesha.Helpers" Version="1.0.3" />
+    <PackageReference Include="Jopalesha.Helpers" Version="1.0.1" />
     <PackageReference Include="StyleCop.Analyzers" Version="1.2.0-beta.435">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>

@@ -1,21 +1,102 @@
-﻿using System;
+namespace Jopalesha.Common.Infrastructure.Logging;
 
-namespace Jopalesha.Common.Infrastructure.Logging
+/// <summary>
+/// Logger.
+/// </summary>
+public interface ILogger
 {
-    public interface ILogger
-    {
-        void Info(string message, params object[] args);
-        
-        void Warning(string message, params object[] args);
+    /// <summary>
+    /// Log debug info.
+    /// </summary>
+    /// <param name="message">Message.</param>
+    void Debug(string message);
 
-        void Error(Exception exception);
+    /// <summary>
+    /// Log debug info.
+    /// </summary>
+    /// <param name="message">Message.</param>
+    /// <param name="args">Arguments.</param>
+    void Debug(string message, params object[] args);
 
-        void Error(string message, params object[] args);
-        
-        void Error(string message, Exception exception);
+    /// <summary>
+    /// Log info.
+    /// </summary>
+    /// <param name="message">Message.</param>
+    void Info(string message);
 
-        void Debug(string message, params object[] args);
+    /// <summary>
+    /// Log info.
+    /// </summary>
+    /// <param name="message">Message.</param>
+    /// <param name="args">Arguments.</param>
+    void Info(string message, params object[] args);
 
-        void Fatal(string message, Exception exception);
-    }
+    /// <summary>
+    /// Log warning.
+    /// </summary>
+    /// <param name="message">Message.</param>
+    void Warning(string message);
+
+    /// <summary>
+    /// Log warning.
+    /// </summary>
+    /// <param name="message">Message.</param>
+    /// <param name="args">Arguments.</param>
+    void Warning(string message, params object[] args);
+
+    /// <summary>
+    /// Log error.
+    /// </summary>
+    /// <param name="message">Message.</param>
+    void Error(string message);
+
+    /// <summary>
+    /// Log error.
+    /// </summary>
+    /// <param name="message">Message.</param>
+    /// <param name="args">Arguments.</param>
+    void Error(string message, params object[] args);
+
+    /// <summary>
+    /// Log error.
+    /// </summary>
+    /// <param name="exception">Exception.</param>
+    /// <param name="message">Message.</param>
+    void Error(Exception exception, string message);
+
+    /// <summary>
+    /// Log error.
+    /// </summary>
+    /// <param name="exception">Exception.</param>
+    /// <param name="message">Message.</param>
+    /// <param name="args">Arguments.</param>
+    void Error(Exception exception, string message, params object[] args);
+
+    /// <summary>
+    /// Log fatal error.
+    /// </summary>
+    /// <param name="message">Message.</param>
+    void Fatal(string message);
+
+    /// <summary>
+    /// Log fatal error.
+    /// </summary>
+    /// <param name="message">Message.</param>
+    /// <param name="args">Template arguments.</param>
+    void Fatal(string message, params object[] args);
+
+    /// <summary>
+    /// Log fatal error.
+    /// </summary>
+    /// <param name="exception">Exception.</param>
+    /// <param name="message">Message.</param>
+    void Fatal(Exception exception, string message);
+
+    /// <summary>
+    /// Log fatal error.
+    /// </summary>
+    /// <param name="exception">Exception.</param>
+    /// <param name="message">Message.</param>
+    /// <param name="args">Template arguments.</param>
+    void Fatal(Exception exception, string message, params object[] args);
 }
