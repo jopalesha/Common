@@ -60,15 +60,15 @@ namespace Jopalesha.Common.Infrastructure.Cache.Common.Tests
                 switch (job)
                 {
                     case AddCacheItemRequest addRequest:
-                        await ((IRequestHandler<AddCacheItemRequest>) new AddCacheItemRequestHandler(_cache))
+                        await ((IRequestHandler<AddCacheItemRequest>)new AddCacheItemRequestHandler(_cache))
                             .Handle(addRequest, CancellationToken.None);
                         break;
                     case AddCacheItemRangeRequest addRangeRequest:
-                        await ((IRequestHandler<AddCacheItemRangeRequest>) new AddCacheItemRangeRequestHandler(_cache))
+                        await ((IRequestHandler<AddCacheItemRangeRequest>)new AddCacheItemRangeRequestHandler(_cache))
                             .Handle(addRangeRequest, CancellationToken.None);
                         break;
                     case DeleteCacheItemRequest deleteRequest:
-                        await ((IRequestHandler<DeleteCacheItemRequest>) new DeleteCacheItemRequestHandler(_cache))
+                        await ((IRequestHandler<DeleteCacheItemRequest>)new DeleteCacheItemRequestHandler(_cache))
                             .Handle(deleteRequest, CancellationToken.None);
                         break;
                     case ClearCacheRequest clearRequest:
@@ -109,12 +109,12 @@ namespace Jopalesha.Common.Infrastructure.Cache.Common.Tests
             public Task<T> Get<T>(string key, CancellationToken token)
             {
                 _storage.TryGetValue(key, out var result);
-                return Task.FromResult((T) result);
+                return Task.FromResult((T)result);
             }
 
             public Task<T> Find<T>(string key, CancellationToken token)
             {
-                return Task.FromResult(_storage.TryGetValue(key, out var result) ? (T) result : default);
+                return Task.FromResult(_storage.TryGetValue(key, out var result) ? (T)result : default);
             }
 
             public Task Delete(string key, CancellationToken token)

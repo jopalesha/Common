@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <OutputType>Exe</OutputType>
-    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <TargetFramework>net6.0</TargetFramework>
     <AssemblyName>Jopalesha.Common.Infrastructure.Cache.Sql.Tests.Sample</AssemblyName>
     <RootNamespace>Jopalesha.Common.Infrastructure.Cache.Sql.Tests.Sample</RootNamespace>
   </PropertyGroup>

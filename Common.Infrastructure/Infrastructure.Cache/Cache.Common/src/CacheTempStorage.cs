@@ -23,7 +23,7 @@ namespace Jopalesha.Common.Infrastructure.Cache.Common
             }
         }
 
-        public void AddRange(IDictionary<string,  object> items)
+        public void AddRange(IDictionary<string, object> items)
         {
             foreach (var (key, value) in items)
             {

@@ -6,6 +6,7 @@ using Jopalesha.Common.Infrastructure.Cache.Common.Handlers;
 
 namespace Jopalesha.Common.Infrastructure.Cache.Common
 {
+    /// <inheritdoc/>
     public class BackgroundCache : ICache
     {
         private readonly IAsyncQueue _asyncQueue;
@@ -22,6 +23,7 @@ namespace Jopalesha.Common.Infrastructure.Cache.Common
             _tempStorage = tempStorage;
         }
 
+        /// <inheritdoc/>
         public Task Add<T>(string key, T value, CancellationToken token)
         {
             _tempStorage.Add(key, value);

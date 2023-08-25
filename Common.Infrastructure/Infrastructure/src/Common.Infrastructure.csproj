@@ -1,19 +1,19 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
-
+<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFramework>net6.0</TargetFramework>
+    <TargetFramework>net8.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
     <AssemblyName>Jopalesha.Common.Infrastructure</AssemblyName>
     <LangVersion>latest</LangVersion>
     <RootNamespace>Jopalesha.Common.Infrastructure</RootNamespace>
+
+    <GenerateDocumentationFile>True</GenerateDocumentationFile>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+
     <Version>1.0.18.0</Version>
     <AssemblyVersion>1.0.18.0</AssemblyVersion>
     <FileVersion>1.0.18.0</FileVersion>
-    <GenerateDocumentationFile>True</GenerateDocumentationFile>
-    <PackageLicenseExpression>MIT</PackageLicenseExpression>
   </PropertyGroup>
-
   <ItemGroup>
     <PackageReference Include="CheckWhenDoIt" Version="1.0.2" />
     <PackageReference Include="StyleCop.Analyzers" Version="1.2.0-beta.435">
@@ -21,5 +21,4 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
   </ItemGroup>
-
 </Project>
